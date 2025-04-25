@@ -5,6 +5,7 @@ import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import UserContext from "../UserContext";
 
+// ✅ Stripe publishable key should stay hardcoded (only secret keys must be hidden)
 const stripePromise = loadStripe("pk_test_51REClz04YfwG7T1BOgToWaXczQlj4zQ4zPBqpT94aSco0A5pl3LTiOgdfRMGdGwxNzqFEmDb1LM3WVkKgUjb27gT003dCbVSgR");
 
 export default function PaymentPage() {
@@ -20,7 +21,7 @@ export default function PaymentPage() {
 
   useEffect(() => {
     if (!event && id) {
-      axios.get(`/events/${id}`)
+      axios.get(`${import.meta.env.VITE_BACKEND_URL}/events/${id}`)
         .then((res) => setEvent(res.data))
         .catch(() => navigate("/upcoming-events"));
     }
@@ -47,7 +48,7 @@ export default function PaymentPage() {
 
     if (event.ticketPrice === 0) {
       try {
-        const res = await axios.post("/bookings/create", bookingData, {
+        const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/bookings/create`, bookingData, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -62,7 +63,7 @@ export default function PaymentPage() {
     } else {
       try {
         const res = await axios.post(
-          "/payment/create-checkout-session",
+          `${import.meta.env.VITE_BACKEND_URL}/payment/create-checkout-session`,
           {
             eventId: event._id,
             eventName: event.title,
@@ -109,7 +110,7 @@ export default function PaymentPage() {
       {/* Event Summary */}
       <div className="mb-4 bg-white rounded shadow-sm p-4">
         <h4 className="fw-semibold text-dark mb-2">{event.title}</h4>
-        <p className="mb-1"><strong>Price:</strong> {event.ticketPrice === 0 ? "Free" : `LKR ${event.ticketPrice}`}</p>
+        <p className="mb-1"><strong>Price:</strong> {event.ticketPrice === 0 ? "Free" : `$${event.ticketPrice}`}</p>
         <p className="mb-0"><strong>Date:</strong> {event.eventDate?.split("T")[0]}</p>
       </div>
 
