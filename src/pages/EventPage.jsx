@@ -7,6 +7,8 @@ import { FaCopy, FaWhatsapp, FaFacebook } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 export default function EventPage() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
@@ -17,7 +19,7 @@ export default function EventPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5001/api/events/${id}`)
+      .get(`${BASE_URL}/events/${id}`)
       .then((res) => {
         setEvent(res.data);
         setLoading(false);
@@ -29,7 +31,7 @@ export default function EventPage() {
       });
 
     axios
-      .get("http://localhost:5001/api/events")
+      .get(`${BASE_URL}/events`)
       .then((res) => {
         setRelatedEvents(res.data.filter((e) => e._id !== id));
       })
@@ -55,7 +57,6 @@ export default function EventPage() {
 
   return (
     <div className="page-content container">
-      {/* 🔙 Back Button */}
       <div className="mb-4">
         <img
           src="/back-button.png"
@@ -71,7 +72,7 @@ export default function EventPage() {
           <div className="glass-card p-4 rounded-4 shadow-lg">
             {event.image && (
               <img
-                src={`http://localhost:5001/${event.image}`}
+                src={`${BASE_URL.replace("/api", "")}/${event.image}`}
                 alt="Event"
                 className="img-fluid rounded-4 mb-4 w-100"
                 style={{ maxHeight: "450px", objectFit: "cover" }}
