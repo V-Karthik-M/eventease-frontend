@@ -16,7 +16,7 @@ export default function LoginPage({ onSuccess }) {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:5001/api/auth/login",
+        `${import.meta.env.VITE_BACKEND_URL}/auth/login`, // ✅ dynamic backend URL for deployment
         { email, password },
         { withCredentials: true }
       );
