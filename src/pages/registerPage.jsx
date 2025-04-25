@@ -15,36 +15,34 @@ export default function RegisterPage({ onSuccess }) {
       setErrorMessage("❌ Name should contain at least 3 letters.");
       return false;
     }
-
     if (!email.includes("@") || !email.includes(".")) {
       setErrorMessage("❌ Enter a valid email address.");
       return false;
     }
-
     if (password.length < 8 || !/[A-Z]/.test(password)) {
       setErrorMessage("❌ Password must be at least 8 characters long and contain at least one uppercase letter.");
       return false;
     }
-
     if (password !== confirmPassword) {
       setErrorMessage("❌ Passwords do not match!");
       return false;
     }
-
     return true;
   }
 
   async function registerUser(ev) {
     ev.preventDefault();
-
     if (!validateForm()) return;
 
     try {
-      const { data } = await axios.post("http://localhost:5001/api/auth/register", {
-        name,
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
 
       alert("🎉 Registration Successful!");
       if (onSuccess) onSuccess();
@@ -64,7 +62,10 @@ export default function RegisterPage({ onSuccess }) {
 
   return (
     <div className="container d-flex justify-content-center align-items-center">
-      <div className="card p-4 shadow-lg rounded" style={{ width: "400px", backgroundColor: "#121212", color: "white" }}>
+      <div
+        className="card p-4 shadow-lg rounded"
+        style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
+      >
         <h2 className="text-center mb-4">Create Account</h2>
 
         {errorMessage && (
@@ -128,7 +129,9 @@ export default function RegisterPage({ onSuccess }) {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100">Create Account</button>
+          <button type="submit" className="btn btn-primary w-100">
+            Create Account
+          </button>
 
           <div className="text-center mt-3">
             <Link to="/login" className="text-decoration-none text-light">
