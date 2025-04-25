@@ -2,12 +2,12 @@ import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg fixed-top shadow-sm custom-navbar">
+    <nav className="navbar navbar-expand-lg fixed-top shadow-sm custom-navbar bg-dark">
       <div className="container">
         <NavLink
           to="/"
           className={({ isActive }) =>
-            "navbar-brand" + (isActive ? " fw-bold text-warning" : "")
+            "navbar-brand text-light" + (isActive ? " fw-bold text-warning" : "")
           }
         >
           EventEase
@@ -18,6 +18,9 @@ export default function Navbar() {
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon" />
         </button>
@@ -34,7 +37,7 @@ export default function Navbar() {
                 <NavLink
                   to={link.to}
                   className={({ isActive }) =>
-                    "nav-link px-2 py-1" +
+                    "nav-link text-light px-2 py-1" +
                     (isActive
                       ? " fw-bold text-warning border-bottom border-warning"
                       : "")
