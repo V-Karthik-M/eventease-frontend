@@ -1,6 +1,6 @@
 import { useState } from "react";
-import LoginPage from "./LoginPage"; 
-import RegisterPage from "./RegisterPage"; // 
+import LoginPage from "./LoginPage.jsx";
+import RegisterPage from "./RegisterPage.jsx";
 import "../Homepage.css";
 
 export default function Homepage() {
