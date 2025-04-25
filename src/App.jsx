@@ -20,11 +20,11 @@ import Homepage from "./pages/Homepage";
 import AboutPage from "./components/Aboutpage";
 import ContactPage from "./components/Contactpage";
 import SupportPage from "./components/Supportpage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";   // ✅ Correct casing
+import RegisterPage from "./pages/RegisterPage"; // ✅ Correct casing
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import UserAccountPage from "./pages/userContent";
+import UserAccountPage from "./pages/UserContent"; // ✅ Correct casing of file
 import EventCalendar from "./pages/EventCalendar";
 import AddEvent from "./pages/AddEvent";
 import UpcomingEvents from "./pages/UpcomingEvents";
@@ -98,17 +98,15 @@ function AppRoutes() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/support" element={<SupportPage />} />
 
-      {/* 🔐 Authentication */}
+      {/* 🔐 Authentication Pages */}
       <Route path="/register" element={<AuthRedirect><RegisterPage /></AuthRedirect>} />
       <Route path="/login" element={<AuthRedirect><LoginPage /></AuthRedirect>} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/resetpassword/:token" element={<ResetPassword />} />
 
-      {/* 🎟️ Booking and Dashboard */}
+      {/* 🎟️ Booking and Dashboard Pages */}
       <Route path="/book/:id" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
       <Route path="/useraccount" element={<PrivateRoute><UserAccountPage /></PrivateRoute>} />
-
-      {/* 👤 User Dashboard Pages */}
       <Route path="/addevent" element={<PrivateRoute><AddEvent /></PrivateRoute>} />
       <Route path="/upcoming-events" element={<PrivateRoute><UpcomingEvents /></PrivateRoute>} />
       <Route path="/payment" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
