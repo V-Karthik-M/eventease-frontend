@@ -20,8 +20,8 @@ import Homepage from "./pages/Homepage";
 import AboutPage from "./components/Aboutpage";
 import ContactPage from "./components/Contactpage";
 import SupportPage from "./components/Supportpage";
-import LoginPage from "./pages/LoginPage";   // ✅ Correct casing
-import RegisterPage from "./pages/RegisterPage"; // ✅ Correct casing
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import UserAccountPage from "./pages/UserContent"; // ✅ Correct casing of file
