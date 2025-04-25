@@ -12,7 +12,7 @@ const UserContextProvider = ({ children }) => {
       const storedUser = localStorage.getItem("user");
       const storedToken = localStorage.getItem("token");
 
-      const isValid = (val) => val && val !== "undefined" && val !== "null";
+      const isValid = (val) => val && val !== "undefined" && val !== "null" && val !== "";
 
       if (isValid(storedUser) && isValid(storedToken)) {
         const parsedUser = JSON.parse(storedUser);
@@ -37,7 +37,7 @@ const UserContextProvider = ({ children }) => {
   }, []);
 
   if (loading) {
-    return <div className="text-center mt-5"><strong>Loading session...</strong></div>;
+    return <div className="text-center mt-5"><strong>Checking for active session...</strong></div>;
   }
 
   return (
