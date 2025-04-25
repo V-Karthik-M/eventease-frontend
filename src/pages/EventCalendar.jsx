@@ -17,7 +17,7 @@ export default function EventCalendar() {
 
   useEffect(() => {
     axios
-      .get("/api/events")
+      .get("/events") // ✅ Correct backend API (no hardcoded /api)
       .then((response) => {
         setEvents(response.data);
         setLoading(false);
@@ -61,10 +61,7 @@ export default function EventCalendar() {
       ) : (
         <div className="row g-2">
           {daysInMonth.map((date) => (
-            <div
-              key={date.toISOString()}
-              className="col-6 col-sm-4 col-md-2"
-            >
+            <div key={date.toISOString()} className="col-6 col-sm-4 col-md-2">
               <div
                 className={`border rounded p-2 text-center h-100 ${
                   isToday(date) ? "bg-warning text-white fw-bold" : "bg-light"
