@@ -52,7 +52,7 @@ export default function AddEvent() {
       Object.keys(formData).forEach((key) => data.append(key, formData[key]));
       if (imageFile) data.append("image", imageFile);
 
-      const response = await axios.post("http://localhost:5001/api/events/create", data, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/events/create`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
