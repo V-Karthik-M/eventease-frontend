@@ -1,15 +1,5 @@
-# dependencies
-node_modules/
-
-# build output
-dist/
-
-# Vite cache
-.vite/
-
-# local env files
+node_modules
+dist
 .env
-.env.*
-
-# macOS system files
 .DS_Store
+.vscode
