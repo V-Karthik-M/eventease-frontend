@@ -17,7 +17,7 @@ export default function EditEvent() {
     eventTime: "",
     location: "",
     ticketPrice: 0,
-    image: "", // holds the existing image path like "uploads/filename.jpg"
+    image: "", 
   });
 
   const [newImageFile, setNewImageFile] = useState(null);
@@ -27,7 +27,7 @@ export default function EditEvent() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5001/api/events/${id}`)
+      .get(`/events/${id}`) // ✅ Dynamic URL
       .then((res) => {
         setFormData(res.data);
         setLoading(false);
@@ -64,7 +64,7 @@ export default function EditEvent() {
         updatedData.append("image", newImageFile);
       }
 
-      await axios.put(`http://localhost:5001/api/events/${id}`, updatedData, {
+      await axios.put(`/events/${id}`, updatedData, { // ✅ Dynamic URL
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -185,7 +185,7 @@ export default function EditEvent() {
           <div className="mb-4">
             <label className="form-label">Current Image</label>
             <img
-              src={`http://localhost:5001/${formData.image}`}
+              src={`/${formData.image}`} // ✅ Dynamic Image
               alt="Current"
               className="img-fluid rounded mb-2"
               style={{ maxHeight: "200px" }}
