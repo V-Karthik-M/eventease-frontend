@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check-case": "find src -type f | grep -i 'loginpage.jsx' || echo 'Case looks good'"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^3.6.0",
@@ -38,8 +39,4 @@
   "engines": {
     "node": ">=18.0.0"
   }
-  "scripts": {
-  "check-case": "find src -type f | grep -i 'loginpage.jsx' || echo 'Case looks good'"
-}
-
 }
