@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #e6eff8bd;
+  display: flex;
+  flex-direction: column;
+  scroll-behavior: smooth;
+  color: #1c1c1e;
+}
+
+.app-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-content {
+  padding-top: 64px;
+  padding-bottom: 40px;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ✅ Custom Dark Red Navbar */
+.navbar.custom-navbar {
+  font-weight: 500;
+  z-index: 1000;
+  min-height: 20px;
+  padding-top: 0.1rem;
+  padding-bottom: 1px;
+  background-color: rgba(0, 0, 0, 0.95) !important;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 8px rgba(82, 42, 42, 0.1);
+  transition: all 0.3s ease;
+  line-height: 0.4;
+}
+
+.navbar.custom-navbar .nav-link {
+  color: #ffffff !important;
+  font-weight: 500;
+}
+
+.navbar.custom-navbar .nav-link:hover,
+.navbar.custom-navbar .nav-link.active {
+  color: #ffffff !important;
+}
+.navbar.custom-navbar .navbar-brand {
+  color: #ffffff !important;
+}
+
+/* Layout Container */
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Form Styling */
+.form-wrapper {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 32px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease;
+}
+
+.form-wrapper:hover {
+  transform: scale(1.01);
+}
+
+/* Cards */
+.card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 0;
+  border-radius: 20px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  height: 220px;
+  object-fit: cover;
+}
+
+.event-card .card-img-top:empty {
+  display: none;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 15px;
+  background-color: #ffffff;
+  margin-bottom: 16px;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #006CE6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 108, 230, 0.15);
+}
+
+/* Buttons */
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(to right, #006CE6, #4f8df9);
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(to right, #004bbd, #3f7fe4);
+}
+
+.btn-secondary {
+  width: 100%;
+  background: white;
+  border: 2px solid #006CE6;
+  color: #006CE6;
+  font-weight: 600;
+  padding: 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #006CE6;
+  color: white;
+}
+
+/* Links */
+a {
+  color: #006CE6;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.custom-footer {
+  background-color: rgba(0, 0, 0, 0.95); /* Dark red theme */
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 0 -2px 1px rgba(0, 0, 0, 0.1);
+  line-height: 0.1;
+  padding: 6px 10px !important;   
+  min-height: 48px !important; 
+}
+
+.custom-footer small {
+  opacity: 0.85;
+  letter-spacing: 0.5px;
+}
+
+
+/* Scroll to Top Button */
+.scroll-top-button {
+  position: fixed;
+  bottom: 40px;
+  right: 30px;
+  background: #006CE6;
+  color: white;
+  border: none;
+  padding: 14px 18px;
+  font-size: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(100px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 999;
+}
+
+.scroll-top-button.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Calendar */
+.react-calendar__tile.highlight {
+  background: #198754 !important;
+  color: white !important;
+  border-radius: 50%;
+  font-weight: bold;
+}
+
+/* Book Button */
+.event-book-btn {
+  background-color: #0d6efd;
+  color: white;
+  padding: 12px 28px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.event-book-btn:hover {
+  background-color: #0a58ca;
+}
+
+/* Share Buttons */
+.share-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 10px;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.share-btn.copy {
+  background-color: #f1f3f5;
+  border: 1px solid #ccc;
+  color: #333;
+}
+
+.share-btn.whatsapp {
+  background-color: #25D366;
+  color: white;
+  border: none;
+}
+
+.share-btn.facebook {
+  background-color: #1877F2;
+  color: white;
+  border: none;
+}
+
+.share-btn:hover {
+  opacity: 0.9;
+}
+
+.share-btn svg {
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+
+  .form-wrapper {
+    width: 95%;
+  }
+
+  .page-content {
+    padding-top: 72px;
+  }
+
+  .scroll-top-button {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .share-buttons {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .share-btn {
+    width: 100%;
+  }
+}

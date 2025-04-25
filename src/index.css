@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9fafb;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Structure Fix */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#root > div {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Calendar Highlight */
+.react-calendar__tile.highlight {
+  background: #198754 !important;
+  color: white;
+  border-radius: 50%;
+}
