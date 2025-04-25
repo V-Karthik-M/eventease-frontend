@@ -14,23 +14,25 @@ export default function ResetPassword() {
     ev.preventDefault();
 
     if (!password || !confirmPassword) {
-      setMessage("All fields are required!");
+      setMessage("❌ All fields are required!");
       return;
     }
 
     if (password !== confirmPassword) {
-      setMessage("Passwords do not match!");
+      setMessage("❌ Passwords do not match!");
       return;
     }
 
     try {
-      await axios.post(`http://localhost:5001/api/auth/reset-password/${token}`, {
-        password,
-      });
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/reset-password/${token}`,
+        { password }
+      );
 
       alert("🎉 Password reset successful!");
       navigate("/login");
     } catch (error) {
+      console.error("❌ Error resetting password:", error);
       setMessage("❌ Password reset failed. The link may be expired.");
     }
   }
@@ -45,7 +47,7 @@ export default function ResetPassword() {
             <label className="form-label">New Password</label>
             <input
               type="password"
-              name="password" // ✅ Added for Cypress
+              name="password"
               className="form-control"
               placeholder="Enter a strong password"
               value={password}
@@ -58,7 +60,7 @@ export default function ResetPassword() {
             <label className="form-label">Confirm Password</label>
             <input
               type="password"
-              name="confirmPassword" // ✅ Added for Cypress
+              name="confirmPassword"
               className="form-control"
               placeholder="Confirm new password"
               value={confirmPassword}
@@ -71,7 +73,9 @@ export default function ResetPassword() {
             <div className="alert alert-warning text-center">{message}</div>
           )}
 
-          <button type="submit" className="btn btn-primary w-100">Submit</button>
+          <button type="submit" className="btn btn-primary w-100">
+            Submit
+          </button>
 
           <div className="text-center mt-3">
             <Link to="/login" className="text-decoration-none">← Back to Login</Link>
