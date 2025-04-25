@@ -1,6 +1,6 @@
 import { useState } from "react";
-import LoginPage from "./Loginpage";
-import RegisterPage from "./registerPage";
+import LoginPage from "./LoginPage"; 
+import RegisterPage from "./RegisterPage"; // 
 import "../Homepage.css";
 
 export default function Homepage() {
@@ -13,10 +13,10 @@ export default function Homepage() {
     <div className={`homepage-wrapper ${activeForm ? "blurred" : ""}`}>
       <div
         style={{
-          backgroundImage: 'url("/background.png")', // ✅ Correct: from public/background.png
+          backgroundImage: 'url("/background.png")', // ✅ From frontend/public
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          minHeight: 'calc(100vh - 56px)', // Adjust for navbar
+          minHeight: 'calc(100vh - 56px)',
           color: 'white',
           textShadow: '1px 1px 4px rgba(0,0,0,0.6)',
           display: 'flex',
@@ -29,7 +29,6 @@ export default function Homepage() {
         <h1>Welcome to EventEase!</h1>
         <p>Your one-stop platform to manage, attend, and create events effortlessly.</p>
 
-        {/* 🔵 Login and Register Buttons */}
         <div className="mt-4">
           <button
             className="btn btn-outline-light mx-2"
@@ -47,7 +46,6 @@ export default function Homepage() {
           </button>
         </div>
 
-        {/* 🟣 Sliding Login/Register Form */}
         <div className={`slide-form ${activeForm ? "show" : ""}`} data-testid="slide-form">
           <div className="close-btn" onClick={handleClose}>❌</div>
           {activeForm === "login" && <LoginPage onSuccess={handleClose} />}
