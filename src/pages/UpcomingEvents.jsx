@@ -21,7 +21,7 @@ export default function UpcomingEvents() {
 
     const fetchEvents = async () => {
       try {
-        const res = await axios.get("http://localhost:5001/api/events");
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/events`);
 
         const today = new Date();
         today.setUTCHours(0, 0, 0, 0);
@@ -79,7 +79,7 @@ export default function UpcomingEvents() {
               <div className="card event-card shadow-sm border-0 d-flex flex-column h-100">
                 {event.image && (
                   <img
-                    src={`/${event.image}`}
+                    src={`https://eventease-backend-s4ih.onrender.com/${event.image}`}
                     alt={event.title}
                     className="card-img-top"
                   />
