@@ -38,4 +38,8 @@
   "engines": {
     "node": ">=18.0.0"
   }
+  "scripts": {
+  "check-case": "find src -type f | grep -i 'loginpage.jsx' || echo 'Case looks good'"
+}
+
 }
