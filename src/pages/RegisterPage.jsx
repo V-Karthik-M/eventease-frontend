@@ -37,11 +37,7 @@ export default function RegisterPage({ onSuccess }) {
     try {
       const { data } = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
-        {
-          name,
-          email,
-          password,
-        }
+        { name, email, password }
       );
 
       alert("🎉 Registration Successful!");
@@ -56,9 +52,7 @@ export default function RegisterPage({ onSuccess }) {
     }
   }
 
-  if (redirect) {
-    return <Navigate to="/login" />;
-  }
+  if (redirect) return <Navigate to="/login" />;
 
   return (
     <div className="container d-flex justify-content-center align-items-center">
@@ -68,9 +62,7 @@ export default function RegisterPage({ onSuccess }) {
       >
         <h2 className="text-center mb-4">Create Account</h2>
 
-        {errorMessage && (
-          <div className="alert alert-danger text-center">{errorMessage}</div>
-        )}
+        {errorMessage && <div className="alert alert-danger text-center">{errorMessage}</div>}
 
         <form onSubmit={registerUser}>
           <div className="mb-3">
