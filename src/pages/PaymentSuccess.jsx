@@ -11,14 +11,16 @@ export default function PaymentSuccess() {
     const saveBooking = async () => {
       try {
         const token = localStorage.getItem("token");
-        await axios.post("http://localhost:5001/api/bookings", {
+
+        await axios.post(`${import.meta.env.VITE_BACKEND_URL}/bookings/create`, {
           eventId: event._id,
           amount: event.ticketPrice,
         }, {
           headers: { Authorization: `Bearer ${token}` },
         });
+
       } catch (err) {
-        console.error("❌ Failed to save booking:", err);
+        console.error("❌ Failed to save booking:", err?.response?.data || err.message);
       }
     };
 
@@ -29,7 +31,10 @@ export default function PaymentSuccess() {
     <div className="page-content container text-center">
       <h2 className="mt-5">✅ Payment Successful!</h2>
       <p>Thank you for booking. Your transaction has been saved.</p>
-      <button className="btn btn-primary mt-3" onClick={() => navigate("/useraccount")}>
+      <button
+        className="btn btn-primary mt-3"
+        onClick={() => navigate("/useraccount")}
+      >
         Go to My Account
       </button>
     </div>
