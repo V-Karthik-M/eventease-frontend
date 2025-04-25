@@ -12,7 +12,7 @@ export default function CalendarView() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5001/api/events")
+      .get("/events") // ✅ Dynamic API call
       .then((response) => {
         setEvents(response.data);
       })
@@ -42,10 +42,10 @@ export default function CalendarView() {
 
   return (
     <div className="page-content container">
-      {/* Optional Back Button */}
+      {/* 🔙 Back Button */}
       <div className="mb-3">
         <img
-          src="http://localhost:5001/uploads/Back_button.png"
+          src="/back-button.png" // ✅ Dynamic image path from public folder
           alt="Back"
           style={{ width: "50px", cursor: "pointer" }}
           onClick={() => navigate("/upcoming-events")}
