@@ -1,44 +1,64 @@
 /* Main wrapper with optional blur */
 .homepage-wrapper {
-    position: relative;
-  }
-  
-  .homepage-wrapper.blurred::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    backdrop-filter: blur(6px);
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 5;
-  }
-  
-  /* Slide-up login/register container */
-  .slide-form {
-    position: absolute;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+/* Blur background when form is open */
+.homepage-wrapper.blurred::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 5;
+}
+
+/* Slide-up login/register form */
+.slide-form {
+  position: fixed;
+  bottom: -100%;
+  left: 0;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  right: 0;
+  background: #121212;
+  padding: 2rem 1.5rem;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0px -2px 20px rgba(255, 255, 255, 0.2);
+  transition: bottom 0.6s ease-in-out;
+  z-index: 999;
+}
+
+/* Slide up when form is shown */
+.slide-form.show {
+  bottom: 10%; /* ✨ Slide and stop nicely */
+}
+
+/* Close (X) button */
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Animation on load (optional extra) */
+@keyframes slideUp {
+  from {
     bottom: -100%;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.97);
-    transition: bottom 0.6s ease-in-out;
-    z-index: 10;
-    padding: 40px 0;
-    display: flex;
-    justify-content: center;
   }
-  
-  /* When form is active (slide up) */
-  .slide-form.show {
-    bottom: 0;
+  to {
+    bottom: 10%;
   }
-  
-  /* Close (X) button style */
-  .close-btn {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 24px;
-    cursor: pointer;
-    color: white;
-    z-index: 11;
-  }
-  
+}
