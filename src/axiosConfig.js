@@ -1,6 +1,8 @@
+// src/axiosConfig.js
 import axios from "axios";
 
-const backendURL = import.meta.env.VITE_BACKEND_URL || "https://eventease-backend-j1ob.onrender.com";
+const backendURL = import.meta.env.VITE_BACKEND_URL || "https://eventease-backend-j1ob.onrender.com/api";
+
 axios.defaults.baseURL = backendURL;
 axios.defaults.withCredentials = true;
 
