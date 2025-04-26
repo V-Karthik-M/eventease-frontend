@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import axios from "../axiosConfig"; // ✅ Correct: use configured axios, not raw axios
 
 export default function RegisterPage({ onSuccess }) {
   const [name, setName] = useState("");
@@ -20,7 +20,7 @@ export default function RegisterPage({ onSuccess }) {
       return false;
     }
     if (password.length < 8 || !/[A-Z]/.test(password)) {
-      setErrorMessage("❌ Password must be at least 8 characters and have one uppercase letter.");
+      setErrorMessage("❌ Password must be at least 8 characters long and have one uppercase letter.");
       return false;
     }
     if (password !== confirmPassword) {
@@ -36,7 +36,7 @@ export default function RegisterPage({ onSuccess }) {
 
     try {
       const { data } = await axios.post(
-        `/auth/register`, // ✅ Correct (not /api/auth/register anymore)
+        "/auth/register", // ✅ Correct: backend is at /api/auth/register → axios adds /api already
         { name, email, password }
       );
 
@@ -63,9 +63,7 @@ export default function RegisterPage({ onSuccess }) {
         <h2 className="text-center mb-4">Create Account</h2>
 
         {errorMessage && (
-          <div className="alert alert-danger text-center">
-            {errorMessage}
-          </div>
+          <div className="alert alert-danger text-center">{errorMessage}</div>
         )}
 
         <form onSubmit={registerUser}>
@@ -80,7 +78,11 @@ export default function RegisterPage({ onSuccess }) {
               value={name}
               onChange={(ev) => setName(ev.target.value)}
               required
-              style={{ backgroundColor: "#1e1e1e", color: "white", border: "1px solid #555" }}
+              style={{
+                backgroundColor: "#1e1e1e",
+                color: "white",
+                border: "1px solid #555",
+              }}
             />
           </div>
 
@@ -95,7 +97,11 @@ export default function RegisterPage({ onSuccess }) {
               value={email}
               onChange={(ev) => setEmail(ev.target.value)}
               required
-              style={{ backgroundColor: "#1e1e1e", color: "white", border: "1px solid #555" }}
+              style={{
+                backgroundColor: "#1e1e1e",
+                color: "white",
+                border: "1px solid #555",
+              }}
             />
           </div>
 
@@ -110,7 +116,11 @@ export default function RegisterPage({ onSuccess }) {
               value={password}
               onChange={(ev) => setPassword(ev.target.value)}
               required
-              style={{ backgroundColor: "#1e1e1e", color: "white", border: "1px solid #555" }}
+              style={{
+                backgroundColor: "#1e1e1e",
+                color: "white",
+                border: "1px solid #555",
+              }}
             />
           </div>
 
@@ -125,7 +135,11 @@ export default function RegisterPage({ onSuccess }) {
               value={confirmPassword}
               onChange={(ev) => setConfirmPassword(ev.target.value)}
               required
-              style={{ backgroundColor: "#1e1e1e", color: "white", border: "1px solid #555" }}
+              style={{
+                backgroundColor: "#1e1e1e",
+                color: "white",
+                border: "1px solid #555",
+              }}
             />
           </div>
 
@@ -134,7 +148,7 @@ export default function RegisterPage({ onSuccess }) {
           </button>
 
           <div className="text-center mt-3">
-            <Link to="/login" className="text-decoration-none text-light">
+            <Link to="/login" className="text-light text-decoration-none">
               Already have an account? Sign in
             </Link>
           </div>
