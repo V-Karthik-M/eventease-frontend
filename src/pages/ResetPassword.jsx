@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "../axiosConfig";
 
 export default function ResetPassword() {
-  const { token } = useParams(); // Token from URL
+  const { token } = useParams();
   const navigate = useNavigate();
-
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -24,16 +23,13 @@ export default function ResetPassword() {
     }
 
     try {
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/reset-password/${token}`,
-        { password }
-      );
+      await axios.post(`/auth/reset-password/${token}`, { password });
 
       alert("🎉 Password reset successful!");
       navigate("/login");
     } catch (error) {
       console.error("❌ Error resetting password:", error);
-      setMessage("❌ Password reset failed. The link may be expired.");
+      setMessage("❌ Password reset failed. The link may be expired or invalid.");
     }
   }
 
@@ -47,9 +43,7 @@ export default function ResetPassword() {
             <label className="form-label">New Password</label>
             <input
               type="password"
-              name="password"
               className="form-control"
-              placeholder="Enter a strong password"
               value={password}
               onChange={(ev) => setPassword(ev.target.value)}
               required
@@ -60,26 +54,18 @@ export default function ResetPassword() {
             <label className="form-label">Confirm Password</label>
             <input
               type="password"
-              name="confirmPassword"
               className="form-control"
-              placeholder="Confirm new password"
               value={confirmPassword}
               onChange={(ev) => setConfirmPassword(ev.target.value)}
               required
             />
           </div>
 
-          {message && (
-            <div className="alert alert-warning text-center">{message}</div>
-          )}
+          {message && <div className="alert alert-warning text-center">{message}</div>}
 
           <button type="submit" className="btn btn-primary w-100">
             Submit
           </button>
-
-          <div className="text-center mt-3">
-            <Link to="/login" className="text-decoration-none">← Back to Login</Link>
-          </div>
         </form>
       </div>
     </div>
