@@ -1,64 +1,70 @@
-/* Main wrapper with optional blur */
+/* Main homepage wrapper */
 .homepage-wrapper {
   position: relative;
   overflow-x: hidden;
-  overflow-y: hidden;
+  min-height: 100vh;
 }
 
-/* Blur background when form is open */
+.homepage-content {
+  background-size: cover;
+  background-position: center;
+  min-height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  color: white;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+  position: relative;
+}
+
+/* When blurred */
 .homepage-wrapper.blurred::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   backdrop-filter: blur(6px);
   background: rgba(0, 0, 0, 0.4);
-  z-index: 5;
+  z-index: 9;
 }
 
-/* Slide-up login/register form */
+/* Slide-up form */
 .slide-form {
   position: fixed;
   bottom: -100%;
   left: 0;
   width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  right: 0;
+  min-height: 85vh;
   background: #121212;
-  padding: 2rem 1.5rem;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  box-shadow: 0px -2px 20px rgba(255, 255, 255, 0.2);
-  transition: bottom 0.6s ease-in-out;
-  z-index: 999;
+  color: white;
+  transition: bottom 0.5s ease-in-out;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 10;
+  overflow-y: auto;
 }
 
-/* Slide up when form is shown */
 .slide-form.show {
-  bottom: 10%; /* ✨ Slide and stop nicely */
+  bottom: 0;
 }
 
-/* Close (X) button */
+/* Close Button */
 .close-btn {
   position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 28px;
-  font-weight: bold;
-  color: white;
+  top: 20px;
+  right: 30px;
+  font-size: 26px;
   cursor: pointer;
-  z-index: 1000;
+  color: white;
+  z-index: 11;
 }
 
-/* Animation on load (optional extra) */
-@keyframes slideUp {
-  from {
-    bottom: -100%;
-  }
-  to {
-    bottom: 10%;
-  }
+/* Form Inside Slide */
+.slide-form form {
+  width: 100%;
+  max-width: 450px;
 }
