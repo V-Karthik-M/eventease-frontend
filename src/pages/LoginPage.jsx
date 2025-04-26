@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../axiosConfig"; // ✅ IMPORTANT: use your configured axios
 import UserContext from "../UserContext";
 
 export default function LoginPage({ onSuccess }) {
@@ -16,7 +16,7 @@ export default function LoginPage({ onSuccess }) {
 
     try {
       const { data } = await axios.post(
-        `/auth/login`, // ✅ Only /auth/login because axios baseURL already has /api
+        "/auth/login",  // ✅ Correct: axios baseURL already has /api
         { email, password }
       );
 
@@ -45,20 +45,12 @@ export default function LoginPage({ onSuccess }) {
   }
 
   return (
-    <div
-      className="container d-flex justify-content-center align-items-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <div
-        className="card p-4 shadow-lg"
-        style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
-      >
+    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <div className="card p-4 shadow-lg" style={{ width: "400px", backgroundColor: "#121212", color: "white" }}>
         <h2 className="text-center mb-4">Sign In</h2>
 
         {errorMessage && (
-          <div className="alert alert-danger text-center">
-            {errorMessage}
-          </div>
+          <div className="alert alert-danger text-center">{errorMessage}</div>
         )}
 
         <form onSubmit={loginUser}>
@@ -100,20 +92,17 @@ export default function LoginPage({ onSuccess }) {
             />
           </div>
 
-          <button
-            type="submit"
-            className="btn btn-primary w-100"
-          >
+          <button type="submit" className="btn btn-primary w-100">
             Login
           </button>
 
           <div className="text-center mt-3">
-            <Link to="/forgotpassword" className="text-decoration-none text-light">
+            <Link to="/forgotpassword" className="text-light text-decoration-none">
               Forgot Password?
             </Link>
           </div>
           <div className="text-center mt-3">
-            <Link to="/register" className="text-decoration-none text-light">
+            <Link to="/register" className="text-light text-decoration-none">
               Don’t have an account? Register
             </Link>
           </div>
