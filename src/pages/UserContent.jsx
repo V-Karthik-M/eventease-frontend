@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import axios from "../axiosConfig"; // ✅ Use your configured axios
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 import { FaArrowLeft } from "react-icons/fa";
@@ -8,8 +8,8 @@ import UserContext from "../UserContext";
 const getImageUrl = (path) => {
   if (!path) return "/default-user.png";
   return path.startsWith("uploads/")
-    ? `https://eventease-backend-s4ih.onrender.com/${path}`
-    : `https://eventease-backend-s4ih.onrender.com/uploads/${path}`;
+    ? `${import.meta.env.VITE_BACKEND_URL.replace("/api", "")}/${path}`
+    : `${import.meta.env.VITE_BACKEND_URL.replace("/api", "")}/uploads/${path}`;
 };
 
 export default function UserContent() {
@@ -22,7 +22,7 @@ export default function UserContent() {
 
   useEffect(() => {
     if (!user) return;
-    axios.get("https://eventease-backend-s4ih.onrender.com/api/events")
+    axios.get("/events")
       .then(res => {
         const created = res.data.filter(event => event.owner === user.name);
         setUserEvents(created);
@@ -32,7 +32,7 @@ export default function UserContent() {
 
   useEffect(() => {
     if (!user) return;
-    axios.get(`https://eventease-backend-s4ih.onrender.com/api/events/analytics/${user.name}`)
+    axios.get(`/events/analytics/${user.name}`)
       .then(res => setAnalytics(res.data))
       .catch(err => console.error("❌ Error loading analytics:", err));
   }, [user]);
@@ -51,7 +51,7 @@ export default function UserContent() {
       ) {
         try {
           const res = await axios.post(
-            "https://eventease-backend-s4ih.onrender.com/api/bookings/create",
+            "/bookings/create",
             {
               eventId: bookingEvent.eventId,
               amount: bookingEvent.amount,
@@ -78,7 +78,7 @@ export default function UserContent() {
 
     const fetchBookings = async () => {
       try {
-        const res = await axios.get("https://eventease-backend-s4ih.onrender.com/api/bookings/my-bookings", {
+        const res = await axios.get("/bookings/my-bookings", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -104,7 +104,7 @@ export default function UserContent() {
     if (!window.confirm("Cancel this booking?")) return;
 
     try {
-      await axios.delete(`https://eventease-backend-s4ih.onrender.com/api/bookings/${bookingId}`, {
+      await axios.delete(`/bookings/${bookingId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setMyBookings((prev) => prev.filter((b) => b._id !== bookingId));
@@ -117,7 +117,7 @@ export default function UserContent() {
   const handleDelete = async (eventId) => {
     if (!window.confirm("Delete this event?")) return;
     try {
-      await axios.delete(`https://eventease-backend-s4ih.onrender.com/api/events/${eventId}`);
+      await axios.delete(`/events/${eventId}`);
       setUserEvents((prev) => prev.filter((e) => e._id !== eventId));
       alert("✅ Event deleted.");
     } catch (err) {
@@ -128,7 +128,7 @@ export default function UserContent() {
   const handleLogout = () => {
     setUser(null);
     localStorage.clear();
-    axios.post("https://eventease-backend-s4ih.onrender.com/api/auth/logout").then(() => navigate("/"));
+    axios.post("/auth/logout").then(() => navigate("/"));
   };
 
   if (!user) return <p className="text-center mt-5">Please log in to view your account.</p>;
