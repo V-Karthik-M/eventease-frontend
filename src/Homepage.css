@@ -5,6 +5,7 @@
   min-height: 100vh;
 }
 
+/* Main visible content background */
 .homepage-content {
   background-size: cover;
   background-position: center;
@@ -18,19 +19,27 @@
   color: white;
   text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
   position: relative;
+  animation: fadeIn 1s ease;
 }
 
-/* When blurred */
+/* Slight fade on page load */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Background blur effect when form is active */
 .homepage-wrapper.blurred::before {
   content: "";
   position: fixed;
   inset: 0;
-  backdrop-filter: blur(6px);
-  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.5);
   z-index: 9;
+  pointer-events: none;
 }
 
-/* Slide-up form */
+/* Slide-up login/register/forgot form */
 .slide-form {
   position: fixed;
   bottom: -100%;
@@ -39,32 +48,69 @@
   min-height: 85vh;
   background: #121212;
   color: white;
-  transition: bottom 0.5s ease-in-out;
-  padding: 40px 20px;
+  transition: bottom 0.5s ease-in-out, opacity 0.4s ease;
+  padding: 60px 20px 40px;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   z-index: 10;
   overflow-y: auto;
+  opacity: 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
 }
 
+/* When slide-form is shown */
 .slide-form.show {
   bottom: 0;
+  opacity: 1;
 }
 
-/* Close Button */
+/* Close (X) button */
 .close-btn {
   position: absolute;
   top: 20px;
   right: 30px;
-  font-size: 26px;
+  font-size: 28px;
   cursor: pointer;
   color: white;
   z-index: 11;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 8px 12px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
 }
 
-/* Form Inside Slide */
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Form inside the sliding form */
 .slide-form form {
   width: 100%;
   max-width: 450px;
+}
+
+/* Blurred overlay (extra if needed) */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(5px);
+  z-index: 8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .slide-form {
+    min-height: 90vh;
+    padding: 40px 20px;
+  }
+
+  .close-btn {
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+  }
 }
