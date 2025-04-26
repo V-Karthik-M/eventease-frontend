@@ -20,7 +20,7 @@ export default function RegisterPage({ onSuccess }) {
       return false;
     }
     if (password.length < 8 || !/[A-Z]/.test(password)) {
-      setErrorMessage("❌ Password must be at least 8 characters long and contain an uppercase letter.");
+      setErrorMessage("❌ Password must be at least 8 characters and have one uppercase letter.");
       return false;
     }
     if (password !== confirmPassword) {
@@ -35,11 +35,10 @@ export default function RegisterPage({ onSuccess }) {
     if (!validateForm()) return;
 
     try {
-      const { data } = await axios.post("/api/auth/register", {
-        name,
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `/auth/register`, // ✅ Correct (not /api/auth/register anymore)
+        { name, email, password }
+      );
 
       alert("🎉 Registration Successful!");
       if (onSuccess) onSuccess();
@@ -64,7 +63,9 @@ export default function RegisterPage({ onSuccess }) {
         <h2 className="text-center mb-4">Create Account</h2>
 
         {errorMessage && (
-          <div className="alert alert-danger text-center">{errorMessage}</div>
+          <div className="alert alert-danger text-center">
+            {errorMessage}
+          </div>
         )}
 
         <form onSubmit={registerUser}>
