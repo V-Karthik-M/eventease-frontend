@@ -15,7 +15,11 @@ export default function LoginPage({ onSuccess }) {
     setErrorMessage("");
 
     try {
-      const { data } = await axios.post("/api/auth/login", { email, password });
+      const { data } = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/login`,  // ✅ Correct backend URL usage
+        { email, password },
+        { withCredentials: true }
+      );
 
       if (!data.user || !data.token) {
         setErrorMessage("Login failed. Please try again.");
