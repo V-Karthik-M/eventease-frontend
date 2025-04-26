@@ -16,9 +16,8 @@ export default function LoginPage({ onSuccess }) {
 
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/login`,  // ✅ Correct backend URL usage
-        { email, password },
-        { withCredentials: true }
+        `/auth/login`, // ✅ Only /auth/login because axios baseURL already has /api
+        { email, password }
       );
 
       if (!data.user || !data.token) {
@@ -53,17 +52,16 @@ export default function LoginPage({ onSuccess }) {
       <div
         className="card p-4 shadow-lg"
         style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
-        data-testid="login-card"
       >
         <h2 className="text-center mb-4">Sign In</h2>
 
         {errorMessage && (
-          <div className="alert alert-danger text-center" data-testid="login-error">
+          <div className="alert alert-danger text-center">
             {errorMessage}
           </div>
         )}
 
-        <form onSubmit={loginUser} data-testid="login-form">
+        <form onSubmit={loginUser}>
           <div className="mb-3">
             <label className="form-label" htmlFor="email">Email</label>
             <input
@@ -75,7 +73,6 @@ export default function LoginPage({ onSuccess }) {
               value={email}
               onChange={(ev) => setEmail(ev.target.value)}
               required
-              data-testid="email-input"
               style={{
                 backgroundColor: "#1e1e1e",
                 color: "white",
@@ -95,7 +92,6 @@ export default function LoginPage({ onSuccess }) {
               value={password}
               onChange={(ev) => setPassword(ev.target.value)}
               required
-              data-testid="password-input"
               style={{
                 backgroundColor: "#1e1e1e",
                 color: "white",
@@ -107,7 +103,6 @@ export default function LoginPage({ onSuccess }) {
           <button
             type="submit"
             className="btn btn-primary w-100"
-            data-testid="login-button"
           >
             Login
           </button>
