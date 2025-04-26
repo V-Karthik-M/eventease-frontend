@@ -1,6 +1,7 @@
 import { useState } from "react";
-import LoginPage from "./LoginPage.jsx";
-import RegisterPage from "./RegisterPage.jsx";
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
+import ForgotPassword from "./ForgotPassword";
 import "../Homepage.css";
 
 export default function Homepage() {
@@ -14,12 +15,25 @@ export default function Homepage() {
     setActiveForm(null);
   };
 
+  const handleSwitch = (target) => {
+    setActiveForm(target);
+  };
+
   return (
-    <div className={`homepage-wrapper ${activeForm ? "blurred" : ""}`}>
+    <div className="homepage-wrapper">
       <div
-        className="homepage-content"
         style={{
           backgroundImage: 'url("/background.png")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          minHeight: "calc(100vh - 56px)",
+          color: "white",
+          textShadow: "1px 1px 4px rgba(0,0,0,0.6)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
         }}
       >
         <h1>Welcome to EventEase!</h1>
@@ -39,16 +53,21 @@ export default function Homepage() {
             Register
           </button>
         </div>
+
+        {/* Popup Form Area */}
+        {activeForm && (
+          <div className="slide-form show">
+            <div className="close-btn" onClick={handleClose}>❌</div>
+
+            {activeForm === "login" && <LoginPage onSuccess={handleClose} onSwitch={handleSwitch} />}
+            {activeForm === "register" && <RegisterPage onSuccess={handleClose} onSwitch={handleSwitch} />}
+            {activeForm === "forgot" && <ForgotPassword onSwitch={handleSwitch} />}
+          </div>
+        )}
       </div>
 
-      {/* Slide Form */}
-      {activeForm && (
-        <div className="slide-form show">
-          <div className="close-btn" onClick={handleClose}>❌</div>
-          {activeForm === "login" && <LoginPage onSuccess={handleClose} />}
-          {activeForm === "register" && <RegisterPage onSuccess={handleClose} />}
-        </div>
-      )}
+      {/* Blurred Background when form is open */}
+      {activeForm && <div className="overlay"></div>}
     </div>
   );
 }
