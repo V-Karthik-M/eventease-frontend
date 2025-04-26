@@ -20,7 +20,7 @@ export default function Homepage() {
   };
 
   return (
-    <div className="homepage-wrapper">
+    <div className={`homepage-wrapper ${activeForm ? "blurred" : ""}`}>
       <div
         style={{
           backgroundImage: 'url("/background.png")',
