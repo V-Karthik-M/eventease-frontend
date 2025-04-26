@@ -18,8 +18,7 @@ export default function EventPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL}/events/${id}`)
+    axios.get(`${BASE_URL}/events/${id}`)
       .then((res) => {
         setEvent(res.data);
         setLoading(false);
@@ -30,8 +29,7 @@ export default function EventPage() {
         setLoading(false);
       });
 
-    axios
-      .get(`${BASE_URL}/events`)
+    axios.get(`${BASE_URL}/events`)
       .then((res) => {
         setRelatedEvents(res.data.filter((e) => e._id !== id));
       })
@@ -44,11 +42,7 @@ export default function EventPage() {
   };
 
   const handleBookTicket = () => {
-    if (event?.ticketPrice === 0) {
-      navigate(`/book/${event._id}`);
-    } else {
-      navigate("/payment", { state: { event } });
-    }
+    navigate(`/book/${event._id}`);
   };
 
   if (loading) return <div className="text-center mt-5 fw-semibold">Loading event details...</div>;
