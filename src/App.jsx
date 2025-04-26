@@ -85,7 +85,11 @@ function AppRoutes() {
   }, [setUser]);
 
   if (loading) {
-    return <div className="text-center mt-5"><strong>Loading...</strong></div>;
+    return (
+      <div className="text-center mt-5">
+        <strong>Loading...</strong>
+      </div>
+    );
   }
 
   return (
@@ -96,13 +100,13 @@ function AppRoutes() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/support" element={<SupportPage />} />
 
-      {/* 🔐 Authentication Pages */}
+      {/* 🔐 Auth Pages */}
       <Route path="/register" element={<AuthRedirect><RegisterPage /></AuthRedirect>} />
       <Route path="/login" element={<AuthRedirect><LoginPage /></AuthRedirect>} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/resetpassword/:token" element={<ResetPassword />} />
 
-      {/* 🎟️ Booking + Event Pages */}
+      {/* 🎟️ Booking, Events, Dashboard */}
       <Route path="/upcoming-events" element={<UpcomingEvents />} />
       <Route path="/book/:id" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
       <Route path="/useraccount" element={<PrivateRoute><UserAccountPage /></PrivateRoute>} />
@@ -112,11 +116,11 @@ function AppRoutes() {
       <Route path="/event-calendar" element={<PrivateRoute><CalendarView /></PrivateRoute>} />
       <Route path="/calendar-view" element={<PrivateRoute><EventCalendar /></PrivateRoute>} />
 
-      {/* ✅ Stripe payment redirects */}
+      {/* ✅ Stripe Payment Pages */}
       <Route path="/payment-success" element={<Navigate to="/useraccount" replace />} />
       <Route path="/payment-cancel" element={<h2 className="text-center mt-5">❌ Payment Cancelled</h2>} />
 
-      {/* 🛑 Catch all unmatched */}
+      {/* 🚫 Catch all other unknown paths */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
