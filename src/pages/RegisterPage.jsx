@@ -1,13 +1,11 @@
-import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "../axiosConfig"; // ✅ Correct: use configured axios, not raw axios
+import axios from "../axiosConfig"; // ✅ Using configured axios
 
-export default function RegisterPage({ onSuccess }) {
+export default function RegisterPage({ onSuccess, onSwitch }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [redirect, setRedirect] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   function validateForm() {
@@ -36,13 +34,13 @@ export default function RegisterPage({ onSuccess }) {
 
     try {
       const { data } = await axios.post(
-        "/auth/register", // ✅ Correct: backend is at /api/auth/register → axios adds /api already
+        "/auth/register",
         { name, email, password }
       );
 
       alert("🎉 Registration Successful!");
       if (onSuccess) onSuccess();
-      setRedirect(true);
+      // 🚫 No redirect immediately – homepage will control navigation after popup closes.
     } catch (error) {
       if (error.response?.data?.message) {
         setErrorMessage(`❌ ${error.response.data.message}`);
@@ -52,108 +50,105 @@ export default function RegisterPage({ onSuccess }) {
     }
   }
 
-  if (redirect) return <Navigate to="/login" />;
-
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
-      <div
-        className="card p-4 shadow-lg rounded"
-        style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
-      >
-        <h2 className="text-center mb-4">Create Account</h2>
+    <div className="card p-4 shadow-lg rounded" style={{ width: "400px", backgroundColor: "#121212", color: "white" }}>
+      <h2 className="text-center mb-4">Create Account</h2>
 
-        {errorMessage && (
-          <div className="alert alert-danger text-center">{errorMessage}</div>
-        )}
+      {errorMessage && (
+        <div className="alert alert-danger text-center">{errorMessage}</div>
+      )}
 
-        <form onSubmit={registerUser}>
-          <div className="mb-3">
-            <label className="form-label" htmlFor="name">Full Name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              className="form-control"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(ev) => setName(ev.target.value)}
-              required
-              style={{
-                backgroundColor: "#1e1e1e",
-                color: "white",
-                border: "1px solid #555",
-              }}
-            />
-          </div>
+      <form onSubmit={registerUser}>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="name">Full Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            className="form-control"
+            placeholder="Enter your name"
+            value={name}
+            onChange={(ev) => setName(ev.target.value)}
+            required
+            style={{
+              backgroundColor: "#1e1e1e",
+              color: "white",
+              border: "1px solid #555",
+            }}
+          />
+        </div>
 
-          <div className="mb-3">
-            <label className="form-label" htmlFor="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              className="form-control"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(ev) => setEmail(ev.target.value)}
-              required
-              style={{
-                backgroundColor: "#1e1e1e",
-                color: "white",
-                border: "1px solid #555",
-              }}
-            />
-          </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="email">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            className="form-control"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(ev) => setEmail(ev.target.value)}
+            required
+            style={{
+              backgroundColor: "#1e1e1e",
+              color: "white",
+              border: "1px solid #555",
+            }}
+          />
+        </div>
 
-          <div className="mb-3">
-            <label className="form-label" htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              className="form-control"
-              placeholder="Enter a strong password"
-              value={password}
-              onChange={(ev) => setPassword(ev.target.value)}
-              required
-              style={{
-                backgroundColor: "#1e1e1e",
-                color: "white",
-                border: "1px solid #555",
-              }}
-            />
-          </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            className="form-control"
+            placeholder="Enter a strong password"
+            value={password}
+            onChange={(ev) => setPassword(ev.target.value)}
+            required
+            style={{
+              backgroundColor: "#1e1e1e",
+              color: "white",
+              border: "1px solid #555",
+            }}
+          />
+        </div>
 
-          <div className="mb-3">
-            <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              className="form-control"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={(ev) => setConfirmPassword(ev.target.value)}
-              required
-              style={{
-                backgroundColor: "#1e1e1e",
-                color: "white",
-                border: "1px solid #555",
-              }}
-            />
-          </div>
+        <div className="mb-3">
+          <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            className="form-control"
+            placeholder="Confirm your password"
+            value={confirmPassword}
+            onChange={(ev) => setConfirmPassword(ev.target.value)}
+            required
+            style={{
+              backgroundColor: "#1e1e1e",
+              color: "white",
+              border: "1px solid #555",
+            }}
+          />
+        </div>
 
-          <button type="submit" className="btn btn-primary w-100">
-            Create Account
+        <button type="submit" className="btn btn-primary w-100">
+          Create Account
+        </button>
+
+        <div className="text-center mt-3">
+          <button
+            type="button"
+            onClick={() => onSwitch("login")}
+            className="btn btn-link text-light p-0"
+          >
+            Already have an account? Sign in
           </button>
-
-          <div className="text-center mt-3">
-            <Link to="/login" className="text-light text-decoration-none">
-              Already have an account? Sign in
-            </Link>
-          </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
 }
