@@ -1,20 +1,14 @@
-// src/App.jsx
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useContext, useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
-// Axios Global Config
 import "./axiosConfig";
 
-// Context
 import UserContextProvider from "./UserContextProvider.jsx";
 import UserContext from "./UserContext";
 
-// Components
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
@@ -24,15 +18,15 @@ import Homepage from "./pages/Homepage";
 import AboutPage from "./components/Aboutpage";
 import ContactPage from "./components/Contactpage";
 import SupportPage from "./components/Supportpage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import UserAccountPage from "./pages/UserContent";
+import EventCalendar from "./pages/EventCalendar";
 import AddEvent from "./pages/AddEvent";
 import UpcomingEvents from "./pages/UpcomingEvents";
 import CalendarView from "./pages/CalenderView";
-import EventCalendar from "./pages/EventCalendar";
 import EventPage from "./pages/EventPage";
 import EditEvent from "./pages/EditEvent";
 import PaymentPage from "./pages/PaymentPage";
@@ -45,14 +39,14 @@ function App() {
   return (
     <UserContextProvider>
       <Router>
-        <div className="d-flex flex-column min-vh-100">
+        <div className="app-wrapper d-flex flex-column min-vh-100">
           <Navbar />
-          <main className="flex-grow-1">
+          <main className="flex-grow-1 page-content">
             <AppRoutes />
           </main>
           <Footer />
-          <ScrollToTopButton />
         </div>
+        <ScrollToTopButton />
       </Router>
     </UserContextProvider>
   );
@@ -96,55 +90,40 @@ function AppRoutes() {
 
   return (
     <Routes>
-      {/* Public Pages */}
+      {/* 🌐 Public Pages */}
       <Route path="/" element={<Homepage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/support" element={<SupportPage />} />
 
-      {/* Authentication Pages */}
+      {/* 🔐 Authentication Pages */}
       <Route path="/register" element={<AuthRedirect><RegisterPage /></AuthRedirect>} />
       <Route path="/login" element={<AuthRedirect><LoginPage /></AuthRedirect>} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/resetpassword/:token" element={<ResetPassword />} />
 
-      {/* Private Pages */}
+      {/* 🎟️ Booking + Event Pages */}
+      <Route path="/upcoming-events" element={<UpcomingEvents />} />
+      <Route path="/book/:id" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
       <Route path="/useraccount" element={<PrivateRoute><UserAccountPage /></PrivateRoute>} />
       <Route path="/addevent" element={<PrivateRoute><AddEvent /></PrivateRoute>} />
-      <Route path="/upcoming-events" element={<PrivateRoute><UpcomingEvents /></PrivateRoute>} />
-      <Route path="/book/:id" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
-      <Route path="/payment" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
-      <Route path="/calendar-view" element={<PrivateRoute><CalendarView /></PrivateRoute>} />
-      <Route path="/event-calendar" element={<PrivateRoute><EventCalendar /></PrivateRoute>} />
       <Route path="/event/:id" element={<PrivateRoute><EventPage /></PrivateRoute>} />
       <Route path="/edit-event/:id" element={<PrivateRoute><EditEvent /></PrivateRoute>} />
+      <Route path="/event-calendar" element={<PrivateRoute><CalendarView /></PrivateRoute>} />
+      <Route path="/calendar-view" element={<PrivateRoute><EventCalendar /></PrivateRoute>} />
 
-      {/* Stripe Redirect Handling */}
+      {/* ✅ Stripe payment redirects */}
       <Route path="/payment-success" element={<Navigate to="/useraccount" replace />} />
       <Route path="/payment-cancel" element={<h2 className="text-center mt-5">❌ Payment Cancelled</h2>} />
+
+      {/* 🛑 Catch all unmatched */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
 
 function PrivateRoute({ children }) {
   const { user } = useContext(UserContext);
-  const [checking, setChecking] = useState(true);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (!user && token) {
-      window.location.reload();
-    } else {
-      setChecking(false);
-    }
-  }, [user]);
-
-  if (checking) {
-    return <div className="text-center mt-5"><strong>Checking authentication...</strong></div>;
-  }
-
   return user ? children : <Navigate to="/login" replace />;
 }
 
