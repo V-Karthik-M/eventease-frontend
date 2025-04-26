@@ -2,8 +2,9 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
-import "bootstrap/dist/css/bootstrap.min.css";
-import './axiosConfig.js'; // ✅ ADD THIS LINE
+import "bootstrap/dist/css/bootstrap.min.css";  // ✅ Bootstrap CSS
+import "bootstrap/dist/js/bootstrap.bundle.min.js";  // ✅ ADD this (Bootstrap JS)
+import './axiosConfig.js'; // ✅ Your Axios Setup
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
