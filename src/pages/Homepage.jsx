@@ -1,7 +1,7 @@
 import { useState } from "react";
-import LoginPage from "./LoginPage.jsx";      // ✅ Case-sensitive and extension-safe
-import RegisterPage from "./RegisterPage.jsx"; // ✅ Case-sensitive and extension-safe
-import "../Homepage.css";                      // ✅ Make sure Homepage.css exists in src/
+import LoginPage from "./LoginPage.jsx";
+import RegisterPage from "./RegisterPage.jsx";
+import "../Homepage.css";
 
 export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
@@ -15,13 +15,13 @@ export default function Homepage() {
   };
 
   return (
-    <div className={`homepage-wrapper ${activeForm ? "blurred" : ""}`}>
+    <div className="homepage-wrapper">
       <div
         style={{
-          backgroundImage: 'url("/background.png")', // ✅ Must be inside public/
+          backgroundImage: 'url("/background.png")',
           backgroundSize: "cover",
           backgroundPosition: "center",
-          minHeight: "calc(100vh - 56px)", // Adjust if navbar height changes
+          minHeight: "calc(100vh - 56px)",
           color: "white",
           textShadow: "1px 1px 4px rgba(0,0,0,0.6)",
           display: "flex",
@@ -51,7 +51,7 @@ export default function Homepage() {
           </button>
         </div>
 
-        {/* Slide-Up Form Area */}
+        {/* Popup Form */}
         {activeForm && (
           <div className="slide-form show" data-testid="slide-form">
             <div className="close-btn" onClick={handleClose}>❌</div>
@@ -60,6 +60,9 @@ export default function Homepage() {
           </div>
         )}
       </div>
+
+      {/* Blurred Background when form is open */}
+      {activeForm && <div className="overlay"></div>}
     </div>
   );
 }
