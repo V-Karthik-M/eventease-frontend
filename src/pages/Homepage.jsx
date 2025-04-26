@@ -15,8 +15,8 @@ export default function Homepage() {
     setActiveForm(null);
   };
 
-  const handleSwitch = (target) => {
-    setActiveForm(target);
+  const handleSwitch = (targetForm) => {
+    setActiveForm(targetForm);
   };
 
   return (
@@ -59,9 +59,15 @@ export default function Homepage() {
           <div className="slide-form show">
             <div className="close-btn" onClick={handleClose}>❌</div>
 
-            {activeForm === "login" && <LoginPage onSuccess={handleClose} onSwitch={handleSwitch} />}
-            {activeForm === "register" && <RegisterPage onSuccess={handleClose} onSwitch={handleSwitch} />}
-            {activeForm === "forgot" && <ForgotPassword onSwitch={handleSwitch} />}
+            {activeForm === "login" && (
+              <LoginPage onSuccess={handleClose} onSwitch={handleSwitch} />
+            )}
+            {activeForm === "register" && (
+              <RegisterPage onSuccess={handleClose} onSwitch={handleSwitch} />
+            )}
+            {activeForm === "forgot" && (
+              <ForgotPassword onSwitch={handleSwitch} />
+            )}
           </div>
         )}
       </div>
