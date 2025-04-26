@@ -20,7 +20,7 @@ export default function RegisterPage({ onSuccess }) {
       return false;
     }
     if (password.length < 8 || !/[A-Z]/.test(password)) {
-      setErrorMessage("❌ Password must be at least 8 characters long and contain at least one uppercase letter.");
+      setErrorMessage("❌ Password must be at least 8 characters long and contain an uppercase letter.");
       return false;
     }
     if (password !== confirmPassword) {
@@ -35,10 +35,11 @@ export default function RegisterPage({ onSuccess }) {
     if (!validateForm()) return;
 
     try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/register`,
-        { name, email, password }
-      );
+      const { data } = await axios.post("/api/auth/register", {
+        name,
+        email,
+        password,
+      });
 
       alert("🎉 Registration Successful!");
       if (onSuccess) onSuccess();
@@ -55,19 +56,22 @@ export default function RegisterPage({ onSuccess }) {
   if (redirect) return <Navigate to="/login" />;
 
   return (
-    <div className="container d-flex justify-content-center align-items-center">
+    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
       <div
         className="card p-4 shadow-lg rounded"
         style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
       >
         <h2 className="text-center mb-4">Create Account</h2>
 
-        {errorMessage && <div className="alert alert-danger text-center">{errorMessage}</div>}
+        {errorMessage && (
+          <div className="alert alert-danger text-center">{errorMessage}</div>
+        )}
 
         <form onSubmit={registerUser}>
           <div className="mb-3">
-            <label className="form-label">Full Name</label>
+            <label className="form-label" htmlFor="name">Full Name</label>
             <input
+              id="name"
               name="name"
               type="text"
               className="form-control"
@@ -80,8 +84,9 @@ export default function RegisterPage({ onSuccess }) {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Email</label>
+            <label className="form-label" htmlFor="email">Email</label>
             <input
+              id="email"
               name="email"
               type="email"
               className="form-control"
@@ -94,8 +99,9 @@ export default function RegisterPage({ onSuccess }) {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Password</label>
+            <label className="form-label" htmlFor="password">Password</label>
             <input
+              id="password"
               name="password"
               type="password"
               className="form-control"
@@ -108,8 +114,9 @@ export default function RegisterPage({ onSuccess }) {
           </div>
 
           <div className="mb-3">
-            <label className="form-label">Confirm Password</label>
+            <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
             <input
+              id="confirmPassword"
               name="confirmPassword"
               type="password"
               className="form-control"
