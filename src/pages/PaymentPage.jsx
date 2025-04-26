@@ -1,31 +1,36 @@
 import { loadStripe } from "@stripe/stripe-js";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import UserContext from "../UserContext";
 
-// ✅ Stripe publishable key should stay hardcoded (only secret keys must be hidden)
+// ✅ Stripe publishable key
 const stripePromise = loadStripe("pk_test_51REClz04YfwG7T1BOgToWaXczQlj4zQ4zPBqpT94aSco0A5pl3LTiOgdfRMGdGwxNzqFEmDb1LM3WVkKgUjb27gT003dCbVSgR");
 
 export default function PaymentPage() {
   const { id } = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
   const { token } = useContext(UserContext);
 
-  const [event, setEvent] = useState(location.state?.event || null);
+  const [event, setEvent] = useState(null);
   const [attendeeName, setAttendeeName] = useState("");
   const [attendees, setAttendees] = useState(1);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!event && id) {
-      axios.get(`${import.meta.env.VITE_BACKEND_URL}/events/${id}`)
-        .then((res) => setEvent(res.data))
-        .catch(() => navigate("/upcoming-events"));
+    if (!id) {
+      navigate("/upcoming-events");
+      return;
     }
-  }, [event, id, navigate]);
+
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/events/${id}`)
+      .then((res) => setEvent(res.data))
+      .catch(() => {
+        alert("❌ Event not found!");
+        navigate("/upcoming-events");
+      });
+  }, [id, navigate]);
 
   const handleBooking = async (e) => {
     e.preventDefault();
@@ -86,7 +91,9 @@ export default function PaymentPage() {
     }
   };
 
-  if (!event) return <div className="text-center mt-5">Loading event information...</div>;
+  if (!event) {
+    return <div className="text-center mt-5">Loading event details...</div>;
+  }
 
   return (
     <div className="page-content container mt-5">
@@ -125,7 +132,6 @@ export default function PaymentPage() {
             onChange={(e) => setAttendeeName(e.target.value)}
             required
             placeholder="Enter your full name"
-            data-cy="attendee-name"
           />
         </div>
 
@@ -138,14 +144,13 @@ export default function PaymentPage() {
             value={attendees}
             onChange={(e) => setAttendees(Number(e.target.value))}
             required
-            data-cy="attendee-count"
           />
         </div>
 
-        {error && <div className="alert alert-danger" data-cy="booking-error">{error}</div>}
+        {error && <div className="alert alert-danger">{error}</div>}
 
-        <button type="submit" className="btn btn-primary btn-lg w-100 rounded-pill mt-3" data-cy="book-button">
-          {event.ticketPrice === 0 ? "Book Ticket" : "Proceed to Payment"}
+        <button type="submit" className="btn btn-primary btn-lg w-100 rounded-pill mt-3">
+          {event.ticketPrice === 0 ? "Book Free Ticket" : "Proceed to Payment"}
         </button>
       </form>
     </div>
