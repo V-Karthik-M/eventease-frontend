@@ -9,24 +9,25 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
+        '@': path.resolve(__dirname, 'src'), // no './src', just 'src' is enough
       },
     },
     server: {
       port: 5173,
       open: true,
-      host: true, // ✅ Helps Vercel and local network access
+      host: '0.0.0.0', // ✅ Needed for external/local network access (good for testing on other devices too)
     },
     build: {
       outDir: 'dist',
-      emptyOutDir: true, // ✅ Clean dist/ folder before build
+      emptyOutDir: true, // ✅ Always clean old builds
     },
     define: {
       'process.env': env,
     },
     preview: {
-      port: 4173, // ✅ Vite preview defaults (good for testing before deploy)
+      port: 4173,
       strictPort: true,
+      host: '0.0.0.0', // ✅ Same for preview server
     },
   };
 });
