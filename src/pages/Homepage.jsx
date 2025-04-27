@@ -1,4 +1,3 @@
-// Inside Homepage.jsx
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
@@ -11,8 +10,6 @@ export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-
-  console.log("👤 Homepage user:", user);
 
   useEffect(() => {
     if (user) {
@@ -29,8 +26,8 @@ export default function Homepage() {
   };
 
   const handleLoginSuccess = () => {
-    setActiveForm(null);    // Close popup
-    navigate("/upcoming-events"); // Redirect after login
+    setActiveForm(null); // Close the popup form
+    window.location.href = "/upcoming-events"; // ⬅️ Full page reload for safe session restore
   };
 
   const handleSwitch = (targetForm) => {
@@ -72,6 +69,7 @@ export default function Homepage() {
           </button>
         </div>
 
+        {/* Form Popup */}
         {activeForm && (
           <div className="slide-form show">
             <div className="close-btn" onClick={handleClose}>❌</div>
@@ -89,6 +87,7 @@ export default function Homepage() {
         )}
       </div>
 
+      {/* Background Blur */}
       {activeForm && <div className="overlay"></div>}
     </div>
   );
