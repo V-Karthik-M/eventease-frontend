@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ForgotPassword from "./ForgotPassword";
+import UserContext from "../UserContext"; // 🆕
 import "../Homepage.css";
 
 export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
   const navigate = useNavigate();
+  const { user } = useContext(UserContext); // 🆕
 
   const handleShow = (form) => {
     setActiveForm(form);
@@ -17,16 +19,17 @@ export default function Homepage() {
     setActiveForm(null);
   };
 
-  const handleCloseAndRedirect = () => {
-    setActiveForm(null);
-    setTimeout(() => {
-      navigate("/upcoming-events");
-    }, 300); // Slight delay for smoother UX
-  };
-
   const handleSwitch = (targetForm) => {
     setActiveForm(targetForm);
   };
+
+  // 🆕 After successful login (user exists), close popup and navigate
+  useEffect(() => {
+    if (user && activeForm === "login") {
+      setActiveForm(null);
+      navigate("/upcoming-events");
+    }
+  }, [user, activeForm, navigate]);
 
   return (
     <div className={`homepage-wrapper ${activeForm ? "blurred" : ""}`}>
@@ -68,10 +71,10 @@ export default function Homepage() {
             <div className="close-btn" onClick={handleClose}>❌</div>
 
             {activeForm === "login" && (
-              <LoginPage onSuccess={handleCloseAndRedirect} onSwitch={handleSwitch} />
+              <LoginPage onSuccess={handleClose} onSwitch={handleSwitch} />
             )}
             {activeForm === "register" && (
-              <RegisterPage onSuccess={handleCloseAndRedirect} onSwitch={handleSwitch} />
+              <RegisterPage onSuccess={handleClose} onSwitch={handleSwitch} />
             )}
             {activeForm === "forgot" && (
               <ForgotPassword onSwitch={handleSwitch} />
