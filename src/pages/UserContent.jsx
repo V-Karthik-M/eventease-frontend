@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import axios from "../axiosConfig"; // ✅ Use your configured axios
+import axios from "../axiosConfig";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 import { FaArrowLeft } from "react-icons/fa";
@@ -125,10 +125,22 @@ export default function UserContent() {
     }
   };
 
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.clear();
-    axios.post("/auth/logout").then(() => navigate("/"));
+  const handleLogout = async () => {
+    try {
+      setUser(null);
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      delete axios.defaults.headers.common["Authorization"];
+
+      await axios.post("/auth/logout", {}, { timeout: 5000 }).catch(() => {
+        console.warn("Logout timeout or backend sleeping.");
+      });
+
+      navigate("/");
+    } catch (err) {
+      console.error("Logout error:", err);
+      navigate("/");
+    }
   };
 
   if (!user) return <p className="text-center mt-5">Please log in to view your account.</p>;
