@@ -1,25 +1,22 @@
 import { useContext, useState } from "react";
-import axios from "../axiosConfig"; // ✅ Correctly using configured axios
+import axios from "../axiosConfig";
 import UserContext from "../UserContext";
 
-export default function LoginPage({ onSuccess, onSwitch }) {
+export default function LoginPage({ onSwitch }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { setUser, setToken } = useContext(UserContext);
 
-  async function loginUser(ev) {
-    ev.preventDefault();
+  async function loginUser(event) {
+    event.preventDefault();
     setErrorMessage("");
 
     try {
-      const { data } = await axios.post(
-        "/auth/login",
-        { email, password }
-      );
+      const { data } = await axios.post("/auth/login", { email, password });
 
       if (!data.user || !data.token) {
-        setErrorMessage("Login failed. Please try again.");
+        setErrorMessage("❌ Login failed. Please try again.");
         return;
       }
 
@@ -30,9 +27,10 @@ export default function LoginPage({ onSuccess, onSwitch }) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
       alert("🎉 Login successful!");
-      if (onSuccess) onSuccess();
-      // 🚫 No navigate here because in homepage we don't want auto navigate.
-      // Only if popup closes, homepage automatically moves when needed.
+
+      // ✅ Full reload with absolute URL
+      window.location.href = "https://eventease-frontend-one.vercel.app/upcoming-events";
+
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || "❌ Login failed. Please try again."
@@ -41,7 +39,10 @@ export default function LoginPage({ onSuccess, onSwitch }) {
   }
 
   return (
-    <div className="card p-4 shadow-lg" style={{ width: "400px", backgroundColor: "#121212", color: "white" }}>
+    <div
+      className="card p-4 shadow-lg"
+      style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
+    >
       <h2 className="text-center mb-4">Sign In</h2>
 
       {errorMessage && (
@@ -58,7 +59,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             className="form-control"
             placeholder="Enter your email"
             value={email}
-            onChange={(ev) => setEmail(ev.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -77,7 +78,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             className="form-control"
             placeholder="Enter your password"
             value={password}
-            onChange={(ev) => setPassword(ev.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -100,7 +101,8 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             Forgot Password?
           </button>
         </div>
-        <div className="text-center mt-3">
+
+        <div className="text-center mt-2">
           <button
             type="button"
             onClick={() => onSwitch("register")}
