@@ -31,8 +31,8 @@ export default function LoginPage({ onSwitch }) {
 
       alert("🎉 Login successful!");
 
-      // Full reload to apply session everywhere
-      window.location.href = "/upcoming-events";
+      // ✅ IMPORTANT: Hard replace to avoid stale homepage
+      window.location.replace("/upcoming-events");
 
     } catch (error) {
       setErrorMessage(
