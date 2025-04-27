@@ -9,14 +9,14 @@ import UserContext from "../UserContext";
 export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
   const navigate = useNavigate();
-  const { user, token } = useContext(UserContext); // ✅ token also
+  const { user, token } = useContext(UserContext); // ✅ Watch user and token
 
   useEffect(() => {
     if (user && token) {
-      console.log("✅ Logged in, navigating...");
-      navigate("/upcoming-events", { replace: true }); // ✅ Replace history
+      console.log("✅ User detected, navigating to /upcoming-events");
+      navigate("/upcoming-events", { replace: true });
     }
-  }, [user, token, navigate]); // 👈 watch token also!
+  }, [user, token, navigate]); // ✅ Listen for both
 
   const handleShow = (form) => {
     setActiveForm(form);
@@ -27,8 +27,8 @@ export default function Homepage() {
   };
 
   const handleLoginSuccess = () => {
-    setActiveForm(null); 
-    // No manual navigate here anymore, context will detect login
+    setActiveForm(null);
+    // No need to manually navigate anymore, useEffect will do it automatically
   };
 
   const handleSwitch = (targetForm) => {
@@ -70,6 +70,7 @@ export default function Homepage() {
           </button>
         </div>
 
+        {/* Slide Form */}
         {activeForm && (
           <div className="slide-form show">
             <div className="close-btn" onClick={handleClose}>❌</div>
