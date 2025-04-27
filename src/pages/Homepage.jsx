@@ -1,22 +1,11 @@
-import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ForgotPassword from "./ForgotPassword";
 import "../Homepage.css";
-import UserContext from "../UserContext";
 
 export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
-  const navigate = useNavigate();
-  const { user, token } = useContext(UserContext); // ✅ Watch user and token
-
-  useEffect(() => {
-    if (user && token) {
-      console.log("✅ User detected, navigating to /upcoming-events");
-      navigate("/upcoming-events", { replace: true });
-    }
-  }, [user, token, navigate]); // ✅ Listen for both
 
   const handleShow = (form) => {
     setActiveForm(form);
@@ -24,11 +13,6 @@ export default function Homepage() {
 
   const handleClose = () => {
     setActiveForm(null);
-  };
-
-  const handleLoginSuccess = () => {
-    setActiveForm(null);
-    // No need to manually navigate anymore, useEffect will do it automatically
   };
 
   const handleSwitch = (targetForm) => {
@@ -70,13 +54,13 @@ export default function Homepage() {
           </button>
         </div>
 
-        {/* Slide Form */}
+        {/* Popup Form Area */}
         {activeForm && (
           <div className="slide-form show">
             <div className="close-btn" onClick={handleClose}>❌</div>
 
             {activeForm === "login" && (
-              <LoginPage onSuccess={handleLoginSuccess} onSwitch={handleSwitch} />
+              <LoginPage onSuccess={handleClose} onSwitch={handleSwitch} />
             )}
             {activeForm === "register" && (
               <RegisterPage onSuccess={handleClose} onSwitch={handleSwitch} />
@@ -88,6 +72,7 @@ export default function Homepage() {
         )}
       </div>
 
+      {/* Blurred Background when form is open */}
       {activeForm && <div className="overlay"></div>}
     </div>
   );
