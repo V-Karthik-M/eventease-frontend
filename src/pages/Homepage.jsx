@@ -1,21 +1,24 @@
+// Inside Homepage.jsx
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ForgotPassword from "./ForgotPassword";
 import "../Homepage.css";
-import UserContext from "../UserContext"; // ✅ import this
+import UserContext from "../UserContext";
 
 export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext); // ✅ access user from context
+  const { user } = useContext(UserContext);
+
+  console.log("👤 Homepage user:", user);
 
   useEffect(() => {
     if (user) {
       navigate("/upcoming-events");
     }
-  }, [user, navigate]); // ✅ whenever user changes, check and navigate
+  }, [user, navigate]);
 
   const handleShow = (form) => {
     setActiveForm(form);
@@ -23,6 +26,11 @@ export default function Homepage() {
 
   const handleClose = () => {
     setActiveForm(null);
+  };
+
+  const handleLoginSuccess = () => {
+    setActiveForm(null);    // Close popup
+    navigate("/upcoming-events"); // Redirect after login
   };
 
   const handleSwitch = (targetForm) => {
@@ -69,7 +77,7 @@ export default function Homepage() {
             <div className="close-btn" onClick={handleClose}>❌</div>
 
             {activeForm === "login" && (
-              <LoginPage onSuccess={handleClose} onSwitch={handleSwitch} />
+              <LoginPage onSuccess={handleLoginSuccess} onSwitch={handleSwitch} />
             )}
             {activeForm === "register" && (
               <RegisterPage onSuccess={handleClose} onSwitch={handleSwitch} />
