@@ -1,29 +1,25 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import UserContext from "../UserContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 🆕 added
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ForgotPassword from "./ForgotPassword";
 import "../Homepage.css";
 
 export default function Homepage() {
-  const { user } = useContext(UserContext);
-  const navigate = useNavigate();
   const [activeForm, setActiveForm] = useState(null);
-
-  // ✅ Auto-redirect if user is already logged in
-  useEffect(() => {
-    if (user) {
-      navigate("/upcoming-events");
-    }
-  }, [user, navigate]);
+  const navigate = useNavigate(); // 🆕 added
 
   const handleShow = (form) => {
     setActiveForm(form);
   };
 
-  const handleClose = () => {
+  const handleCloseAndRedirect = () => {
     setActiveForm(null);
+    navigate("/upcoming-events"); // 🆕 after login success, go to upcoming-events
+  };
+
+  const handleClose = () => {
+    setActiveForm(null); // normal close (if just cancel form)
   };
 
   const handleSwitch = (targetForm) => {
@@ -71,7 +67,8 @@ export default function Homepage() {
             <div className="close-btn" onClick={handleClose}>❌</div>
 
             {activeForm === "login" && (
-              <LoginPage onSuccess={handleClose} onSwitch={handleSwitch} />
+              <LoginPage onSuccess={handleCloseAndRedirect} onSwitch={handleSwitch} />
+              // 🆕 here, use handleCloseAndRedirect instead of normal close
             )}
             {activeForm === "register" && (
               <RegisterPage onSuccess={handleClose} onSwitch={handleSwitch} />
