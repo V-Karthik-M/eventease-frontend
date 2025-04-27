@@ -20,6 +20,7 @@ export default function LoginPage({ onSwitch }) {
         return;
       }
 
+      // Save user and token
       setUser(data.user);
       setToken(data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -28,8 +29,8 @@ export default function LoginPage({ onSwitch }) {
 
       alert("🎉 Login successful!");
 
-      // ✅ Full reload with absolute URL
-      window.location.href = "https://eventease-frontend-one.vercel.app/upcoming-events";
+      // ✅ Dynamic redirect — no hardcoding domain
+      window.location.href = `${window.location.origin}/upcoming-events`;
 
     } catch (error) {
       setErrorMessage(
