@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../UserContext";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ForgotPassword from "./ForgotPassword";
 import "../Homepage.css";
 
 export default function Homepage() {
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
   const [activeForm, setActiveForm] = useState(null);
+
+  // ✅ Auto-redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate("/upcoming-events");
+    }
+  }, [user, navigate]);
 
   const handleShow = (form) => {
     setActiveForm(form);
