@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ needed for /login page
+import { useNavigate } from "react-router-dom";
 import axios from "../axiosConfig"; 
 import UserContext from "../UserContext";
 
@@ -22,7 +22,6 @@ export default function LoginPage({ onSuccess, onSwitch }) {
         return;
       }
 
-      // ✅ Save user & token
       setUser(data.user);
       setToken(data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -31,17 +30,15 @@ export default function LoginPage({ onSuccess, onSwitch }) {
 
       alert("🎉 Login successful!");
 
-      // ✅ Differentiate if popup login or standalone login
       if (onSuccess) {
         onSuccess(); // Close the popup
         setTimeout(() => {
-          window.location.href = "/upcoming-events"; // Force reload for safety
-        }, 500); 
+          window.location.href = "/upcoming-events"; // ⬅️ Full page reload to go to Upcoming Events
+        }, 300);
       } else {
-        navigate("/upcoming-events"); // Normal page-to-page navigation
+        navigate("/upcoming-events");
       }
     } catch (error) {
-      console.error(error);
       setErrorMessage(
         error.response?.data?.message || "❌ Login failed. Please try again."
       );
@@ -66,7 +63,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             className="form-control"
             placeholder="Enter your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(ev) => setEmail(ev.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -85,7 +82,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             className="form-control"
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(ev) => setPassword(ev.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
