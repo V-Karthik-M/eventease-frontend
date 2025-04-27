@@ -33,14 +33,15 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
     if (!validateForm()) return;
 
     try {
-      const { data } = await axios.post(
-        "/auth/register",
-        { name, email, password }
-      );
+      const { data } = await axios.post("/auth/register", {
+        name,
+        email,
+        password,
+      });
 
       alert("🎉 Registration Successful!");
       if (onSuccess) onSuccess();
-      // 🚫 No redirect immediately – homepage will control navigation after popup closes.
+      // 🚫 No redirect here. Homepage will handle navigation after popup closes.
     } catch (error) {
       if (error.response?.data?.message) {
         setErrorMessage(`❌ ${error.response.data.message}`);
@@ -51,7 +52,10 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
   }
 
   return (
-    <div className="card p-4 shadow-lg rounded" style={{ width: "400px", backgroundColor: "#121212", color: "white" }}>
+    <div
+      className="card p-4 shadow-lg rounded"
+      style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
+    >
       <h2 className="text-center mb-4">Create Account</h2>
 
       {errorMessage && (
@@ -60,13 +64,13 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
 
       <form onSubmit={registerUser}>
         <div className="mb-3">
-          <label className="form-label" htmlFor="name">Full Name</label>
+          <label htmlFor="name" className="form-label">Full Name</label>
           <input
             id="name"
             name="name"
             type="text"
+            placeholder="Enter your full name" // 🔥 Updated for Cypress
             className="form-control"
-            placeholder="Enter your name"
             value={name}
             onChange={(ev) => setName(ev.target.value)}
             required
@@ -79,13 +83,13 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
         </div>
 
         <div className="mb-3">
-          <label className="form-label" htmlFor="email">Email</label>
+          <label htmlFor="email" className="form-label">Email</label>
           <input
             id="email"
             name="email"
             type="email"
+            placeholder="Enter your email" // ✅ Already correct
             className="form-control"
-            placeholder="Enter your email"
             value={email}
             onChange={(ev) => setEmail(ev.target.value)}
             required
@@ -98,13 +102,13 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
         </div>
 
         <div className="mb-3">
-          <label className="form-label" htmlFor="password">Password</label>
+          <label htmlFor="password" className="form-label">Password</label>
           <input
             id="password"
             name="password"
             type="password"
+            placeholder="Enter your password" // 🔥 Updated for Cypress
             className="form-control"
-            placeholder="Enter a strong password"
             value={password}
             onChange={(ev) => setPassword(ev.target.value)}
             required
@@ -117,13 +121,13 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
         </div>
 
         <div className="mb-3">
-          <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
+          <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
           <input
             id="confirmPassword"
             name="confirmPassword"
             type="password"
+            placeholder="Confirm your password" // ✅ Already correct
             className="form-control"
-            placeholder="Confirm your password"
             value={confirmPassword}
             onChange={(ev) => setConfirmPassword(ev.target.value)}
             required
@@ -142,8 +146,8 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
         <div className="text-center mt-3">
           <button
             type="button"
-            onClick={() => onSwitch("login")}
             className="btn btn-link text-light p-0"
+            onClick={() => onSwitch("login")}
           >
             Already have an account? Sign in
           </button>
