@@ -1,39 +1,38 @@
 import { useContext, useState } from "react";
-import axios from "../axiosConfig";
+import axios from "../axiosConfig"; // ✅ Correctly using configured axios
 import UserContext from "../UserContext";
 
-export default function LoginPage({ onSwitch }) {
+export default function LoginPage({ onSuccess, onSwitch }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { setUser, setToken } = useContext(UserContext);
 
-  async function loginUser(event) {
-    event.preventDefault();
+  async function loginUser(ev) {
+    ev.preventDefault();
     setErrorMessage("");
 
     try {
-      const { data } = await axios.post("/auth/login", { email, password });
+      const { data } = await axios.post(
+        "/auth/login",
+        { email, password }
+      );
 
       if (!data.user || !data.token) {
-        setErrorMessage("❌ Login failed. Please try again.");
+        setErrorMessage("Login failed. Please try again.");
         return;
       }
 
-      // Save user and token in context and localStorage
       setUser(data.user);
       setToken(data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
-
-      // Set default Authorization header
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
       alert("🎉 Login successful!");
-
-      // ✅ IMPORTANT: Hard replace to avoid stale homepage
-      window.location.replace("/upcoming-events");
-
+      if (onSuccess) onSuccess();
+      // 🚫 No navigate here because in homepage we don't want auto navigate.
+      // Only if popup closes, homepage automatically moves when needed.
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || "❌ Login failed. Please try again."
@@ -42,10 +41,7 @@ export default function LoginPage({ onSwitch }) {
   }
 
   return (
-    <div
-      className="card p-4 shadow-lg"
-      style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
-    >
+    <div className="card p-4 shadow-lg" style={{ width: "400px", backgroundColor: "#121212", color: "white" }}>
       <h2 className="text-center mb-4">Sign In</h2>
 
       {errorMessage && (
@@ -62,7 +58,7 @@ export default function LoginPage({ onSwitch }) {
             className="form-control"
             placeholder="Enter your email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(ev) => setEmail(ev.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -81,7 +77,7 @@ export default function LoginPage({ onSwitch }) {
             className="form-control"
             placeholder="Enter your password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(ev) => setPassword(ev.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -104,8 +100,7 @@ export default function LoginPage({ onSwitch }) {
             Forgot Password?
           </button>
         </div>
-
-        <div className="text-center mt-2">
+        <div className="text-center mt-3">
           <button
             type="button"
             onClick={() => onSwitch("register")}
