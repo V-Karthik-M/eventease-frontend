@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "../axiosConfig";
 import UserContext from "../UserContext";
 
@@ -8,7 +7,6 @@ export default function LoginPage({ onSuccess, onSwitch }) {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { setUser, setToken } = useContext(UserContext);
-  const navigate = useNavigate();
 
   async function loginUser(ev) {
     ev.preventDefault();
@@ -22,7 +20,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
         return;
       }
 
-      // Save user and token
+      // Save user and token in context and localStorage
       setUser(data.user);
       setToken(data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -31,11 +29,9 @@ export default function LoginPage({ onSuccess, onSwitch }) {
 
       alert("🎉 Login successful!");
 
-      if (onSuccess) {
-        onSuccess(); // ✅ If login was inside Homepage popup, close and Homepage will redirect
-      } else {
-        navigate("/upcoming-events"); // ✅ If direct login page (/login), navigate here
-      }
+      // ✅ Always reload page after login to fix session
+      window.location.href = "/upcoming-events";
+
     } catch (error) {
       setErrorMessage(
         error.response?.data?.message || "❌ Login failed. Please try again."
