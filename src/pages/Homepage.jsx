@@ -3,13 +3,19 @@ import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ForgotPassword from "./ForgotPassword";
-import UserContext from "../UserContext"; // 🆕
 import "../Homepage.css";
+import UserContext from "../UserContext"; // ✅ import this
 
 export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext); // 🆕
+  const { user } = useContext(UserContext); // ✅ access user from context
+
+  useEffect(() => {
+    if (user) {
+      navigate("/upcoming-events");
+    }
+  }, [user, navigate]); // ✅ whenever user changes, check and navigate
 
   const handleShow = (form) => {
     setActiveForm(form);
@@ -22,14 +28,6 @@ export default function Homepage() {
   const handleSwitch = (targetForm) => {
     setActiveForm(targetForm);
   };
-
-  // 🆕 After successful login (user exists), close popup and navigate
-  useEffect(() => {
-    if (user && activeForm === "login") {
-      setActiveForm(null);
-      navigate("/upcoming-events");
-    }
-  }, [user, activeForm, navigate]);
 
   return (
     <div className={`homepage-wrapper ${activeForm ? "blurred" : ""}`}>
