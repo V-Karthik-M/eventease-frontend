@@ -6,20 +6,21 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    base: "/", 
     plugins: [react()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, 'src'), // no './src', just 'src' is enough
+        '@': path.resolve(__dirname, 'src'), // ✅ Correct: 'src' without './'
       },
     },
     server: {
       port: 5173,
       open: true,
-      host: '0.0.0.0', // ✅ Needed for external/local network access (good for testing on other devices too)
+      host: '0.0.0.0', // ✅ External access allowed (for local network testing)
     },
     build: {
       outDir: 'dist',
-      emptyOutDir: true, // ✅ Always clean old builds
+      emptyOutDir: true, // ✅ Clean previous build before new one
     },
     define: {
       'process.env': env,
