@@ -2,21 +2,21 @@ import { useContext, useState } from "react";
 import axios from "../axiosConfig";
 import UserContext from "../UserContext";
 
-export default function LoginPage({ onSuccess, onSwitch }) {
+export default function LoginPage({ onSwitch }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { setUser, setToken } = useContext(UserContext);
 
-  async function loginUser(ev) {
-    ev.preventDefault();
+  async function loginUser(event) {
+    event.preventDefault();
     setErrorMessage("");
 
     try {
       const { data } = await axios.post("/auth/login", { email, password });
 
       if (!data.user || !data.token) {
-        setErrorMessage("Login failed. Please try again.");
+        setErrorMessage("❌ Login failed. Please try again.");
         return;
       }
 
@@ -25,11 +25,13 @@ export default function LoginPage({ onSuccess, onSwitch }) {
       setToken(data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
+
+      // Set default Authorization header
       axios.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
       alert("🎉 Login successful!");
 
-      // ✅ Always reload page after login to fix session
+      // Full reload to apply session everywhere
       window.location.href = "/upcoming-events";
 
     } catch (error) {
