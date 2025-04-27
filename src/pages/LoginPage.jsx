@@ -31,12 +31,9 @@ export default function LoginPage({ onSuccess, onSwitch }) {
       alert("🎉 Login successful!");
 
       if (onSuccess) {
-        onSuccess(); // Close the popup
-        setTimeout(() => {
-          window.location.href = "/upcoming-events"; // ⬅️ Full page reload to go to Upcoming Events
-        }, 300);
+        onSuccess(); // ✅ Only call onSuccess(), Homepage will redirect
       } else {
-        navigate("/upcoming-events");
+        navigate("/upcoming-events"); // ✅ If no popup (direct login page)
       }
     } catch (error) {
       setErrorMessage(
