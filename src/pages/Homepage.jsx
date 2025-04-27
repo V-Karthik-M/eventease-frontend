@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 🆕 added
+import { useNavigate } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import ForgotPassword from "./ForgotPassword";
@@ -7,19 +7,21 @@ import "../Homepage.css";
 
 export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
-  const navigate = useNavigate(); // 🆕 added
+  const navigate = useNavigate();
 
   const handleShow = (form) => {
     setActiveForm(form);
   };
 
-  const handleCloseAndRedirect = () => {
+  const handleClose = () => {
     setActiveForm(null);
-    navigate("/upcoming-events"); // 🆕 after login success, go to upcoming-events
   };
 
-  const handleClose = () => {
-    setActiveForm(null); // normal close (if just cancel form)
+  const handleCloseAndRedirect = () => {
+    setActiveForm(null);
+    setTimeout(() => {
+      navigate("/upcoming-events");
+    }, 300); // Slight delay for smoother UX
   };
 
   const handleSwitch = (targetForm) => {
@@ -61,17 +63,15 @@ export default function Homepage() {
           </button>
         </div>
 
-        {/* Popup Form Area */}
         {activeForm && (
           <div className="slide-form show">
             <div className="close-btn" onClick={handleClose}>❌</div>
 
             {activeForm === "login" && (
               <LoginPage onSuccess={handleCloseAndRedirect} onSwitch={handleSwitch} />
-              // 🆕 here, use handleCloseAndRedirect instead of normal close
             )}
             {activeForm === "register" && (
-              <RegisterPage onSuccess={handleClose} onSwitch={handleSwitch} />
+              <RegisterPage onSuccess={handleCloseAndRedirect} onSwitch={handleSwitch} />
             )}
             {activeForm === "forgot" && (
               <ForgotPassword onSwitch={handleSwitch} />
@@ -80,7 +80,6 @@ export default function Homepage() {
         )}
       </div>
 
-      {/* Blurred Background when form is open */}
       {activeForm && <div className="overlay"></div>}
     </div>
   );
