@@ -9,13 +9,14 @@ import UserContext from "../UserContext";
 export default function Homepage() {
   const [activeForm, setActiveForm] = useState(null);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, token } = useContext(UserContext); // ✅ token also
 
   useEffect(() => {
-    if (user) {
-      navigate("/upcoming-events");
+    if (user && token) {
+      console.log("✅ Logged in, navigating...");
+      navigate("/upcoming-events", { replace: true }); // ✅ Replace history
     }
-  }, [user, navigate]);
+  }, [user, token, navigate]); // 👈 watch token also!
 
   const handleShow = (form) => {
     setActiveForm(form);
@@ -26,8 +27,8 @@ export default function Homepage() {
   };
 
   const handleLoginSuccess = () => {
-    setActiveForm(null); // Close the popup form
-    window.location.href = "/upcoming-events"; // ⬅️ Full page reload for safe session restore
+    setActiveForm(null); 
+    // No manual navigate here anymore, context will detect login
   };
 
   const handleSwitch = (targetForm) => {
@@ -69,7 +70,6 @@ export default function Homepage() {
           </button>
         </div>
 
-        {/* Form Popup */}
         {activeForm && (
           <div className="slide-form show">
             <div className="close-btn" onClick={handleClose}>❌</div>
@@ -87,7 +87,6 @@ export default function Homepage() {
         )}
       </div>
 
-      {/* Background Blur */}
       {activeForm && <div className="overlay"></div>}
     </div>
   );
