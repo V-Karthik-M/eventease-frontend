@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Needed for direct login page
+import { useNavigate } from "react-router-dom"; // ✅ needed for /login page
 import axios from "../axiosConfig"; 
 import UserContext from "../UserContext";
 
@@ -8,7 +8,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { setUser, setToken } = useContext(UserContext);
-  const navigate = useNavigate(); // ✅ for standalone login page redirect
+  const navigate = useNavigate();
 
   async function loginUser(ev) {
     ev.preventDefault();
@@ -22,6 +22,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
         return;
       }
 
+      // ✅ Save user & token
       setUser(data.user);
       setToken(data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -30,15 +31,17 @@ export default function LoginPage({ onSuccess, onSwitch }) {
 
       alert("🎉 Login successful!");
 
+      // ✅ Differentiate if popup login or standalone login
       if (onSuccess) {
-        onSuccess(); // ✅ Close popup
+        onSuccess(); // Close the popup
         setTimeout(() => {
-          window.location.href = "/upcoming-events"; // ✅ Full page reload
-        }, 300);
+          window.location.href = "/upcoming-events"; // Force reload for safety
+        }, 500); 
       } else {
-        navigate("/upcoming-events"); // ✅ If directly logged in from /login
+        navigate("/upcoming-events"); // Normal page-to-page navigation
       }
     } catch (error) {
+      console.error(error);
       setErrorMessage(
         error.response?.data?.message || "❌ Login failed. Please try again."
       );
@@ -63,7 +66,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             className="form-control"
             placeholder="Enter your email"
             value={email}
-            onChange={(ev) => setEmail(ev.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -82,7 +85,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             className="form-control"
             placeholder="Enter your password"
             value={password}
-            onChange={(ev) => setPassword(ev.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
