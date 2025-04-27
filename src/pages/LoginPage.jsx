@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "../axiosConfig"; 
+import axios from "../axiosConfig";
 import UserContext from "../UserContext";
 
 export default function LoginPage({ onSuccess, onSwitch }) {
@@ -22,6 +22,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
         return;
       }
 
+      // Save user and token
       setUser(data.user);
       setToken(data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
@@ -31,9 +32,9 @@ export default function LoginPage({ onSuccess, onSwitch }) {
       alert("🎉 Login successful!");
 
       if (onSuccess) {
-        onSuccess(); // ✅ Only call onSuccess(), Homepage will redirect
+        onSuccess(); // ✅ If login was inside Homepage popup, close and Homepage will redirect
       } else {
-        navigate("/upcoming-events"); // ✅ If no popup (direct login page)
+        navigate("/upcoming-events"); // ✅ If direct login page (/login), navigate here
       }
     } catch (error) {
       setErrorMessage(
@@ -43,7 +44,10 @@ export default function LoginPage({ onSuccess, onSwitch }) {
   }
 
   return (
-    <div className="card p-4 shadow-lg" style={{ width: "400px", backgroundColor: "#121212", color: "white" }}>
+    <div
+      className="card p-4 shadow-lg"
+      style={{ width: "400px", backgroundColor: "#121212", color: "white" }}
+    >
       <h2 className="text-center mb-4">Sign In</h2>
 
       {errorMessage && (
@@ -60,7 +64,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             className="form-control"
             placeholder="Enter your email"
             value={email}
-            onChange={(ev) => setEmail(ev.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
@@ -79,7 +83,7 @@ export default function LoginPage({ onSuccess, onSwitch }) {
             className="form-control"
             placeholder="Enter your password"
             value={password}
-            onChange={(ev) => setPassword(ev.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             style={{
               backgroundColor: "#1e1e1e",
