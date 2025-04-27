@@ -29,7 +29,7 @@ export default function LoginPage({ onSwitch }) {
 
       alert("🎉 Login successful!");
 
-      // ✅ Dynamic redirect — no hardcoding domain
+      // ✅ Dynamic full reload after login
       window.location.href = `${window.location.origin}/upcoming-events`;
 
     } catch (error) {
@@ -52,13 +52,13 @@ export default function LoginPage({ onSwitch }) {
 
       <form onSubmit={loginUser}>
         <div className="mb-3">
-          <label className="form-label" htmlFor="email">Email</label>
+          <label htmlFor="email" className="form-label">Email</label>
           <input
             id="email"
             name="email"
             type="email"
             className="form-control"
-            placeholder="Enter your email"
+            placeholder="Enter your email" // 🔥 same as Cypress expects
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -71,13 +71,13 @@ export default function LoginPage({ onSwitch }) {
         </div>
 
         <div className="mb-3">
-          <label className="form-label" htmlFor="password">Password</label>
+          <label htmlFor="password" className="form-label">Password</label>
           <input
             id="password"
             name="password"
             type="password"
             className="form-control"
-            placeholder="Enter your password"
+            placeholder="Enter your password" // 🔥 updated for Cypress
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
