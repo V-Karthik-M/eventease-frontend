@@ -17,7 +17,7 @@ export default function EventCalendar() {
 
   useEffect(() => {
     axios
-      .get("/events") // ✅ Correct backend API (no hardcoded /api)
+      .get("/events") 
       .then((response) => {
         setEvents(response.data);
         setLoading(false);
