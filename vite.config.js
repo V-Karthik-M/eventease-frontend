@@ -10,17 +10,17 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, 'src'), // ✅ Correct: 'src' without './'
+        '@': path.resolve(__dirname, 'src'), 
       },
     },
     server: {
       port: 5173,
       open: true,
-      host: '0.0.0.0', // ✅ External access allowed (for local network testing)
+      host: '0.0.0.0', 
     },
     build: {
       outDir: 'dist',
-      emptyOutDir: true, // ✅ Clean previous build before new one
+      emptyOutDir: true, 
     },
     define: {
       'process.env': env,
@@ -28,7 +28,7 @@ export default defineConfig(({ mode }) => {
     preview: {
       port: 4173,
       strictPort: true,
-      host: '0.0.0.0', // ✅ Same for preview server
+      host: '0.0.0.0', 
     },
   };
 });
