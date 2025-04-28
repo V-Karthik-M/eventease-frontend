@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "../axiosConfig"; // ✅ Using configured axios
+import axios from "../axiosConfig"; 
 
 export default function RegisterPage({ onSuccess, onSwitch }) {
   const [name, setName] = useState("");
@@ -88,7 +88,7 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
             id="email"
             name="email"
             type="email"
-            placeholder="Enter your email" // ✅ Already correct
+            placeholder="Enter your email" 
             className="form-control"
             value={email}
             onChange={(ev) => setEmail(ev.target.value)}
@@ -107,7 +107,7 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
             id="password"
             name="password"
             type="password"
-            placeholder="Enter your password" // 🔥 Updated for Cypress
+            placeholder="Enter your password" 
             className="form-control"
             value={password}
             onChange={(ev) => setPassword(ev.target.value)}
@@ -126,7 +126,7 @@ export default function RegisterPage({ onSuccess, onSwitch }) {
             id="confirmPassword"
             name="confirmPassword"
             type="password"
-            placeholder="Confirm your password" // ✅ Already correct
+            placeholder="Confirm your password" 
             className="form-control"
             value={confirmPassword}
             onChange={(ev) => setConfirmPassword(ev.target.value)}
