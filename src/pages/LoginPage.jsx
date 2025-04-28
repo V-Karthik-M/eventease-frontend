@@ -58,7 +58,7 @@ export default function LoginPage({ onSwitch }) {
             name="email"
             type="email"
             className="form-control"
-            placeholder="Enter your email" // 🔥 same as Cypress expects
+            placeholder="Enter your email" 
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -77,7 +77,7 @@ export default function LoginPage({ onSwitch }) {
             name="password"
             type="password"
             className="form-control"
-            placeholder="Enter your password" // 🔥 updated for Cypress
+            placeholder="Enter your password" 
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
