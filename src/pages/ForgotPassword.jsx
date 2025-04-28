@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "../axiosConfig"; // ✅ Always use your configured axios
+import axios from "../axiosConfig"; 
 
 export default function ForgotPassword({ onSwitch }) {
   const [email, setEmail] = useState("");
