@@ -241,11 +241,14 @@ export default function UserContent() {
                   <p className="text-muted">Booked on: {new Date(booking.timestamp).toLocaleString()}</p>
                   <div className="text-center mt-3">
                     <QRCodeCanvas
-                      value={`BookingID:${booking._id}`}
+                      value={`https://eventease-frontend-one.vercel.app/booking/${booking._id}`}
                       size={128}
                       level="H"
                       includeMargin
-                    />
+                      />
+                    <p className="text-muted mt-2" style={{ fontSize: "0.8rem" }}>
+                      Scan to view booking
+                    </p>
                     <p className="text-muted mt-2" style={{ fontSize: "0.8rem" }}>
                       Scan at event check-in
                     </p>
