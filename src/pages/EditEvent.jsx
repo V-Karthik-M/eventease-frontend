@@ -27,7 +27,7 @@ export default function EditEvent() {
 
   useEffect(() => {
     axios
-      .get(`/events/${id}`) // ✅ Dynamic URL
+      .get(`/events/${id}`) 
       .then((res) => {
         setFormData(res.data);
         setLoading(false);
@@ -64,7 +64,7 @@ export default function EditEvent() {
         updatedData.append("image", newImageFile);
       }
 
-      await axios.put(`/events/${id}`, updatedData, { // ✅ Dynamic URL
+      await axios.put(`/events/${id}`, updatedData, { 
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -185,7 +185,7 @@ export default function EditEvent() {
           <div className="mb-4">
             <label className="form-label">Current Image</label>
             <img
-              src={`/${formData.image}`} // ✅ Dynamic Image
+              src={`/${formData.image}`} 
               alt="Current"
               className="img-fluid rounded mb-2"
               style={{ maxHeight: "200px" }}
